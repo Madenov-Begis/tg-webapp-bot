@@ -1,21 +1,15 @@
-import { useEffect, useState } from 'react'
+import { router } from './shared/routes/router'
+import { Container } from './shared/ui/container/container'
+import { RouterProvider } from 'react-router-dom'
 
 const App = () => {
-  const [windowSize, setWindowSize] = useState(window.innerWidth)
-
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowSize(window.innerWidth)
-    }
-
-    window.addEventListener('resize', handleWindowResize)
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize)
-    }
-  }, [])
-
-  return <div className="flex flex-shrink bg-red-600 text-x">{windowSize}</div>
+  return (
+    <main className="relative max-w-[600px] mx-auto border border-blacks min-h-screen bg-white">
+      <Container>
+        <RouterProvider router={router} />
+      </Container>
+    </main>
+  )
 }
 
 export default App
