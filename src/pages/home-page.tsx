@@ -5,28 +5,22 @@ import { useTelegram } from '@/shared/hooks/useTelegram'
 import { ProductCard } from '@/shared/ui'
 import { Input } from '@/shared/ui'
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {
-  const location = useLocation()
   const navigate = useNavigate()
   const { tg } = useTelegram()
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
 
   const handleAddCart = (product: Product) => {
-    console.log(product)
-
     setSelectedProducts((prev) => [...prev, product])
   }
 
   useEffect(() => {
     tg.ready()
-    if (location.pathname === '/') {
-      tg.BackButton.hide()
-    } else {
-      tg.BackButton.show()
-    }
-  })
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedProducts])
 
   useEffect(() => {
     if (selectedProducts.length) {
@@ -34,13 +28,18 @@ const HomePage = () => {
       tg.MainButton.setText(`Перейти в корзину (${selectedProducts.length})`)
       tg.MainButton.onClick(() => navigate('/cart'))
     }
+
+    // const json = JSON.stringify(selectedProducts)
+
+    // localStorage.setItem('cart', json)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProducts.length])
 
   return (
     <>
       <PageHead selectedProducts={selectedProducts} />
 
-      <Input />
+      <Input label="Поиск" placeholder="Я ищью..." icon={true} type="search" />
       {/* <div onClick={onToggleButton}>open button</div> */}
       <Categories />
 

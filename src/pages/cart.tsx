@@ -1,7 +1,7 @@
 import { useTelegram } from '@/shared/hooks/useTelegram'
 import { Input } from '@/shared/ui'
 import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+// import { useLocation } from 'react-router-dom'
 
 const Cart = () => {
  
