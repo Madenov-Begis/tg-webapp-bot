@@ -22,6 +22,8 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProducts])
 
+  console.log(selectedProducts)
+
   useEffect(() => {
     if (selectedProducts.length) {
       tg.MainButton.show()
@@ -29,9 +31,6 @@ const HomePage = () => {
       tg.MainButton.onClick(() => navigate('/cart'))
     }
 
-    // const json = JSON.stringify(selectedProducts)
-
-    // localStorage.setItem('cart', json)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedProducts.length])
 
@@ -66,42 +65,42 @@ const products = [
     name: 'Крем для ног',
     category: 'Косметика',
     price: 200.0,
-    count: 1,
+    count: 0,
   },
   {
     id: 2,
     name: 'Крем для лица',
     category: 'Косметика',
     price: 200.0,
-    count: 1,
+    count: 0,
   },
   {
     id: 3,
     name: 'Крем для тело',
     category: 'Косметика',
     price: 200.0,
-    count: 1,
+    count: 0,
   },
   {
     id: 4,
     name: 'Крем для глаз',
     category: 'Косметика',
     price: 200.0,
-    count: 1,
+    count: 0,
   },
   {
     id: 5,
     name: 'Крем для кожи',
     category: 'Косметика',
     price: 200.0,
-    count: 1,
+    count: 0,
   },
   {
     id: 6,
     name: 'Крем для ногтей',
     category: 'Косметика',
     price: 200.0,
-    count: 1,
+    count: 0,
   },
 ]
 
