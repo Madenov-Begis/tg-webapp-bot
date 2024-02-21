@@ -1,7 +1,7 @@
 import { useTelegram } from '@/shared/hooks/useTelegram'
 import { Button } from '@/shared/ui'
 import { useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const ProductDetail = () => {
   const loaction = useLocation()
@@ -27,13 +27,6 @@ const ProductDetail = () => {
 
   return (
     <div className="flex flex-col h-screen">
-      <Link
-        to="/"
-        className="mb-5 border border-gray-700 rounded-md py-2 flex justify-center"
-      >
-        Перейти к каталогу
-      </Link>
-
       <div className="flex-grow">
         <div className="bg-gray-200 w-full h-[300px] rounded-md mb-2"></div>
 
@@ -48,7 +41,6 @@ const ProductDetail = () => {
           voluptatibus.
         </div>
       </div>
-
       <div className="flex-grow-0">
         <div className="flex h-9 max-w-min overflow-hidden rounded-md border border-[#6A3394] mb-5">
           <button

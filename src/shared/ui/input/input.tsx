@@ -6,9 +6,16 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string
   icon: boolean
   type: string
+  setKeyWord: (value: string) => void
 }
 
-export const Input = ({ label, placeholder, icon, type }: InputProps) => {
+export const Input = ({
+  label,
+  placeholder,
+  icon,
+  type,
+  setKeyWord,
+}: InputProps) => {
   return (
     <label className="block text-md font-medium text-gray-700 mb-5">
       {label}
@@ -39,6 +46,7 @@ export const Input = ({ label, placeholder, icon, type }: InputProps) => {
           )}
           placeholder={placeholder}
           required
+          onChange={(e) => setKeyWord(e.target.value)}
         />
       </div>
     </label>

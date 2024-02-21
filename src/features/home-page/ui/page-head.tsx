@@ -1,12 +1,10 @@
-import { useNavigate } from "react-router-dom"
-import { Product } from "../types/types"
+import { useNavigate } from 'react-router-dom'
 
 interface SelectedProductsProps {
-  selectedProducts: Product[]
+  locale: string | undefined
 }
 
-export const PageHead = ({ selectedProducts }: SelectedProductsProps) => {
-
+export const PageHead = ({ locale }: SelectedProductsProps) => {
   const navigate = useNavigate()
 
   return (
@@ -17,7 +15,10 @@ export const PageHead = ({ selectedProducts }: SelectedProductsProps) => {
           Welcome to shop
         </div>
       </div>
-      <div className="flex bg-[#F5F6FA] p-3 rounded-full cursor-pointer relative" onClick={() => navigate('/cart', {state: selectedProducts})}>
+      <div
+        className="flex bg-[#F5F6FA] p-3 rounded-full cursor-pointer relative"
+        onClick={() => navigate(`/${locale}/cart`)}
+      >
         <svg
           width="25"
           height="25"
@@ -56,7 +57,6 @@ export const PageHead = ({ selectedProducts }: SelectedProductsProps) => {
             strokeLinejoin="round"
           />
         </svg>
-        <div className="absolute right-0 -top-2 font-bold text-lg">{selectedProducts.length}</div>
       </div>
     </div>
   )

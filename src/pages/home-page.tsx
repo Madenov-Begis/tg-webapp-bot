@@ -1,107 +1,101 @@
-import { Product } from '@/features/home-page/types/types'
+import { HomePageApi } from '@/features/home-page/api/home-page-api'
+import { Category, Product } from '@/features/home-page/types/types'
 import { Categories } from '@/features/home-page/ui/categories'
 import { PageHead } from '@/features/home-page/ui/page-head'
-import { useTelegram } from '@/shared/hooks/useTelegram'
+// import { useTelegram } from '@/shared/hooks/useTelegram'
 import { ProductCard } from '@/shared/ui'
 import { Input } from '@/shared/ui'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { useDebounceValue } from 'usehooks-ts'
 
 const HomePage = () => {
-  const navigate = useNavigate()
-  const { tg } = useTelegram()
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([])
+  const { locale } = useParams()
 
-  const handleAddCart = (product: Product) => {
-    setSelectedProducts((prev) => [...prev, product])
+  // const { tg, user, queryId } = useTelegram()
+
+  const [products, setProducts] = useState<Product[] | null>(null)
+  const [categories, setCategories] = useState<Category[] | null>(null)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const [page, setPage] = useState<number>(1)
+  const [keyword, setKeyWord] = useDebounceValue<string>('', 500)
+  const [category_id, setCategory_id] = useState<number | null>(null)
+
+  const handleAddCart = () => {
+    console.log(setPage(1))
+  }
+
+  const getProductsList = async () => {
+    try {
+      setIsLoading(true)
+      const res = await HomePageApi.getProducts({
+        page,
+        keyword,
+        category_id,
+      })
+
+      setProducts(res.data)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const getCategories = async () => {
+    try {
+      const res = await HomePageApi.getCategories()
+
+      setCategories(res)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
-    tg.ready()
-
+    getProductsList()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProducts])
-
-  console.log(selectedProducts)
+  }, [category_id, keyword])
 
   useEffect(() => {
-    if (selectedProducts.length) {
-      tg.MainButton.show()
-      tg.MainButton.setText(`Перейти в корзину (${selectedProducts.length})`)
-      tg.MainButton.onClick(() => navigate('/cart'))
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedProducts.length])
+    getCategories()
+  }, [])
 
   return (
     <>
-      <PageHead selectedProducts={selectedProducts} />
+      <PageHead locale={locale} />
 
-      <Input label="Поиск" placeholder="Я ищью..." icon={true} type="search" />
-      {/* <div onClick={onToggleButton}>open button</div> */}
-      <Categories />
+      <Input
+        label="Поиск"
+        placeholder="Я ищью..."
+        icon={true}
+        type="search"
+        setKeyWord={setKeyWord}
+      />
+      <Categories
+        categories={categories}
+        setCategory_id={setCategory_id}
+        category_id={category_id}
+      />
 
       <div className="h-[1px] bg-black/20 mt-5"></div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
-        {products.map((product) => (
-          <ProductCard
-            product={product}
-            onClick={handleAddCart}
-            key={product.id}
-          />
-        ))}
-      </div>
+        {isLoading && <div className="skeleton w-32 h-32"></div>}
 
-      {/* <Button className='absolute bottom-0 w-full' title='Перейти к корзину' onClick={() => {}}/> */}
+        {products?.length &&
+          products?.map((product) => (
+            <ProductCard
+              locale={locale}
+              product={product}
+              onClick={handleAddCart}
+              key={product.id}
+            />
+          ))}
+      </div>
     </>
   )
 }
-
-const products = [
-  {
-    id: 1,
-    name: 'Крем для ног',
-    category: 'Косметика',
-    price: 200.0,
-    count: 0,
-  },
-  {
-    id: 2,
-    name: 'Крем для лица',
-    category: 'Косметика',
-    price: 200.0,
-    count: 0,
-  },
-  {
-    id: 3,
-    name: 'Крем для тело',
-    category: 'Косметика',
-    price: 200.0,
-    count: 0,
-  },
-  {
-    id: 4,
-    name: 'Крем для глаз',
-    category: 'Косметика',
-    price: 200.0,
-    count: 0,
-  },
-  {
-    id: 5,
-    name: 'Крем для кожи',
-    category: 'Косметика',
-    price: 200.0,
-    count: 0,
-  },
-  {
-    id: 6,
-    name: 'Крем для ногтей',
-    category: 'Косметика',
-    price: 200.0,
-    count: 0,
-  },
-]
 
 export default HomePage

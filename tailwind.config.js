@@ -18,5 +18,6 @@ export default {
       textColor: 'var(--tg-theme-text-color)',
     },
   },
-  plugins: [],
+  // eslint-disable-next-line no-undef
+  plugins: [require('daisyui')],
 }

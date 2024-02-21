@@ -5,19 +5,25 @@ import { Product } from '../types/types'
 interface ProductCardProps {
   product: Product
   onClick: (product: Product) => void
+  locale: string | undefined
 }
 
-export const ProductCard = ({ product, onClick }: ProductCardProps) => {
+export const ProductCard = ({ product, onClick, locale }: ProductCardProps) => {
   const addToCArt = () => {
     onClick(product)
   }
 
   return (
     <div key={product.id} className="p-[15px] rounded-md shadow-lg gap-5">
-      <Link to={'/product'}>
+      <Link to={`/${locale}/product`}>
         <div className="bg-gray-200 w-full h-[200px] rounded-md mb-2"></div>
+        {/* <img
+          src={product.image}
+          alt="product-foto"
+          className="w-full h-[200px] rounded-md mb-2"
+        /> */}
 
-        <div className="text-lg font-bold">{product.name}</div>
+        <div className="text-lg font-bold">{product.title}</div>
         <div className="font-medium text-black/40 mb-2">{product.category}</div>
         <div className="font-medium flex-grow">Цена: {product.price}</div>
       </Link>
