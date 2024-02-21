@@ -22,7 +22,10 @@ export const Categories = ({
         <div className="inline-flex rounded-md mt-5 gap-5 select-none">
           {categoryLoading &&
             [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
-              <div key={item} className="skeleton w-[100px] h-[38px] rounded-md"></div>
+              <div
+                key={item}
+                className="skeleton w-[100px] h-[38px] rounded-md"
+              ></div>
             ))}
           {!categoryLoading &&
             categories?.map((category) => (
@@ -30,8 +33,8 @@ export const Categories = ({
                 key={category.id}
                 type="button"
                 className={clsx(
-                  'rounded-lg border shadow-sm border-gray-200 bg-white text-sm font-medium px-4 py-2 text-gray-900',
-                  { 'bg-slate-600 text-white': category.id === category_id }
+                  'rounded-lg border shadow-sm border-gray-200 text-sm font-medium px-4 py-2 text-gray-900',
+                  { 'bg-[#4f46e5] text-white': category.id === category_id }
                 )}
                 onClick={() => setCategory_id(category.id)}
               >

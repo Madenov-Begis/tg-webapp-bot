@@ -30,6 +30,7 @@ const HomePage = () => {
   const handleAddCart = () => {
     console.log(setPage(1))
   }
+  // console.log(category_id)
 
   useEffect(() => {
     const GetProducts = async () => {
