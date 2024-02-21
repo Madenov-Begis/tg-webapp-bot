@@ -1,5 +1,6 @@
 import { http } from '@/shared/http/http'
-import { Category } from '../types/types'
+import { Category, Product } from '../types/types'
+import { ResponseWithPagination } from '@/shared/types/Response'
 
 export const HomePageApi = {
   getProducts: async (params: {
@@ -7,7 +8,7 @@ export const HomePageApi = {
     keyword: string
     category_id: number | null
   }) => {
-    const { data } = await http('product', {
+    const { data } = await http<ResponseWithPagination<Product[]>>('product', {
       params: {
         page: params.page,
         keyword: params.keyword,

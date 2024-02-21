@@ -16,12 +16,13 @@ export const ProductCard = ({ product, onClick, locale }: ProductCardProps) => {
   return (
     <div key={product.id} className="p-[15px] rounded-md shadow-lg gap-5">
       <Link to={`/${locale}/product`}>
-        <div className="bg-gray-200 w-full h-[200px] rounded-md mb-2"></div>
-        {/* <img
+        {/* <div className="bg-gray-200 w-full h-[200px] rounded-md mb-2"></div> */}
+        <img
+          loading="lazy"
           src={product.image}
           alt="product-foto"
           className="w-full h-[200px] rounded-md mb-2"
-        /> */}
+        />
 
         <div className="text-lg font-bold">{product.title}</div>
         <div className="font-medium text-black/40 mb-2">{product.category}</div>
