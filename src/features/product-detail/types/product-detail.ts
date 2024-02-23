@@ -1,8 +1,9 @@
 export interface ProductDetail {
-  id: number
-  image: string
-  title: string
-  description: string
-  category: string
-  price: number
+  id: number | undefined
+  image: string | undefined
+  title: string | undefined
+  description: string | undefined
+  category: string | undefined
+  price: number | undefined
+  basket_count: number | null
 }

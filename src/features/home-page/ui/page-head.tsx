@@ -1,3 +1,4 @@
+import { useTelegram } from '@/shared/hooks/useTelegram'
 import { useNavigate } from 'react-router-dom'
 
 interface SelectedProductsProps {
@@ -5,12 +6,14 @@ interface SelectedProductsProps {
 }
 
 export const PageHead = ({ locale }: SelectedProductsProps) => {
+  const { user } = useTelegram()
+
   const navigate = useNavigate()
 
   return (
     <div className="flex justify-between items-center">
       <div>
-        <div className="text-2xl font-bold mb-2">Hello</div>
+        <div className="text-2xl font-bold mb-2">Hello {user?.id}</div>
         <div className="text-lg font-semibold text-black/40 mb-4">
           Welcome to shop
         </div>

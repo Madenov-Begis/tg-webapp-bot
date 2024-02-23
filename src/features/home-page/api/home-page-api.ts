@@ -1,5 +1,5 @@
 import { http } from '@/shared/http/http'
-import { Category, Product } from '../types/types'
+import { Category, CreateBasketBody, Product } from '../types/types'
 import { ResponseWithPagination } from '@/shared/types/Response'
 
 export const HomePageApi = {
@@ -23,6 +23,12 @@ export const HomePageApi = {
 
   getCategories: async () => {
     const { data } = await http<Category[]>('/category')
+
+    return data
+  },
+
+  addToBasket: async (body: CreateBasketBody) => {
+    const { data } = await http.post('/basket', body)
 
     return data
   },

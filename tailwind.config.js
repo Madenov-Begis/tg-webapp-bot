@@ -21,6 +21,22 @@ export default {
   // eslint-disable-next-line no-undef
   plugins: [require('daisyui')],
   daisyui: {
-    themes: ['light'],
+    themes: [
+      {
+        light: {
+          // eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
+          ...require('daisyui/src/theming/themes')['light'],
+          '.btn': {
+            'background-color': '#1EA1F1',
+            'border-color': '#1EA1F1',
+            color: '#fff',
+          },
+          '.btn:hover': {
+            'background-color': '#1C96E1',
+            'border-color': '#1C96E1',
+          },
+        },
+      },
+    ],
   },
 }

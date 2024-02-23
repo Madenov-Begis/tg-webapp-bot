@@ -6,3 +6,4 @@ export interface ResponseWithPagination<T> {
   next_page: number
   prev_page: number | null
 }
+
