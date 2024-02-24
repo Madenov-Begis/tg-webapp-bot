@@ -7,11 +7,12 @@ import { ProductsList } from '@/features/home-page/ui/products-list'
 import { useTelegram } from '@/shared/hooks/useTelegram'
 import { Input } from '@/shared/ui'
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const HomePage = () => {
   const { locale } = useParams()
-  const { tg } = useTelegram()
+  const { tg,  } = useTelegram()
+  const navigate = useNavigate()
 
   const {
     isLoading,
@@ -48,8 +49,25 @@ const HomePage = () => {
 
   useEffect(() => {
     tg.ready()
+    tg.isClosingConfirmationEnabled = true
+    tg.BackButton.hide()
     getCategories()
   }, [])
+
+  useEffect(() => {
+    if (products?.length) {
+      tg.MainButton.show()
+      tg.MainButton.setText(`Перейти в корзину`)
+      tg.MainButton.onClick(() => navigate(`/${locale}/cart`))
+    }
+    if (!products?.length) {
+      tg.MainButton.hide()
+    }
+
+    return () => {
+      tg.MainButton.offClick(() => navigate(`/${locale}/cart`))
+    }
+  }, [products?.length])
 
   return (
     <>

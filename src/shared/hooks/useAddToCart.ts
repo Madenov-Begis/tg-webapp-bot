@@ -1,8 +1,8 @@
 import { HomePageApi } from '@/features/home-page/api/home-page-api'
 import { useState } from 'react'
 import { useTelegram } from './useTelegram'
-import { Error } from '../types/Errors'
 import { useProductList } from '@/features/home-page/context/products-list'
+import { HTTPError } from '../types/Errors'
 
 export const useAddToCart = () => {
   const [isError, setIsError] = useState(false)
@@ -35,7 +35,7 @@ export const useAddToCart = () => {
     } catch (error) {
       setIsError(true)
 
-      const err = error as Error
+      const err = error as HTTPError
 
       setError(err.message)
     } finally {

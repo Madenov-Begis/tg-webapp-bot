@@ -9,7 +9,7 @@ interface ButtonProps
   title: string
   onClick: () => void
   className?: string
-  loading: boolean
+  loading?: boolean
 }
 
 export const Button = (props: ButtonProps) => {

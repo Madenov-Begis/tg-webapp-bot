@@ -5,7 +5,7 @@ import { RouterProvider } from 'react-router-dom'
 
 const App = () => {
   return (
-    <main className="relative max-w-[600px] mx-auto border border-blacks min-h-screen bg-white">
+    <main className="relative max-w-[600px] mx-auto h-full bg-white">
       <Container>
         <ProductProvider>
           <RouterProvider router={router} />
