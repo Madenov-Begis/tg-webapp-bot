@@ -4,6 +4,7 @@ import HomePage from '@/pages/home-page'
 import ProductDetail from '@/pages/product-detail'
 import Cart from '@/pages/cart'
 import Order from '@/pages/order'
+import { ProductProvider } from '@/features/home-page/context/product-context'
 
 export const router = createBrowserRouter([
   {
@@ -12,7 +13,11 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        element: (
+          <ProductProvider>
+            <HomePage />,
+          </ProductProvider>
+        ),
       },
       {
         path: 'product/:id',

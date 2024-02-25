@@ -16,9 +16,11 @@ export const useAddToCart = () => {
     try {
       setIsLoading(true)
       await HomePageApi.addToBasket({
-        count: 1,
-        product_id: productId,
-        customer_id: user?.id || 1,
+        body: {
+          count: 1,
+          product_id: productId,
+        },
+        user_id: user.id,
       })
 
       setProducts((prev) => {

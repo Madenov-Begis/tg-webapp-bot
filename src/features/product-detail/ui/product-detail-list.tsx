@@ -21,7 +21,7 @@ export const ProductDetailList = () => {
     const getProductOne = async () => {
       try {
         setIsFetching(true)
-        await ProductDetailApi.getProductDetail(id).then((data) =>
+        await ProductDetailApi.getProductDetail(id, user.id).then((data) =>
           setProduct(data)
         )
       } catch (error) {
@@ -38,9 +38,11 @@ export const ProductDetailList = () => {
     try {
       setIsLoading(true)
       await HomePageApi.addToBasket({
-        count: 1,
-        product_id: productId,
-        customer_id: user?.id || 1,
+        body: {
+          count: 1,
+          product_id: productId,
+        },
+        user_id: user.id,
       })
       setProduct({
         category: product?.category ? product.category : undefined,
@@ -140,7 +142,7 @@ export const ProductDetailList = () => {
               onClick={() => {
                 addToCArt(product?.id)
               }}
-              className="btn-lg"
+              className="btn-lg mt-8"
             />
           )}
         </div>

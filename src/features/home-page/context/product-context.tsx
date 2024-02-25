@@ -9,6 +9,7 @@ import {
 import { Product } from '../types/types'
 import { DebouncedState, useDebounceValue } from 'usehooks-ts'
 import { HomePageApi } from '../api/home-page-api'
+import { useTelegram } from '@/shared/hooks/useTelegram'
 
 interface ProductContextProps {
   products: Product[]
@@ -30,25 +31,26 @@ interface ProductProviderProps {
 }
 
 export const ProductProvider = ({ children }: ProductProviderProps) => {
+  const { user } = useTelegram()
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isPageLoading, setIsPageLoading] = useState(false)
   const [totalPage, setTotalPage] = useState(1)
   const [page, setPage] = useState<number>(1)
   const [keyword, setKeyWord] = useDebounceValue<string>('', 500)
-
-  const [category_id, setCategory_id] = useState<number | null>(null)
+  const [category_id, setCategory_id] = useState<number | null>(0)
 
   useEffect(() => {
     const GetProducts = async () => {
       try {
         setIsPageLoading(true)
-        await HomePageApi.getProducts({ category_id, keyword, page }).then(
-          (data) => {
-            setProducts((prev) => [...prev, ...data.data])
-            setTotalPage(data.last_page)
-          }
-        )
+        await HomePageApi.getProducts({
+          params: { category_id, keyword, page },
+          user_id: user.id,
+        }).then((data) => {
+          setProducts((prev) => [...prev, ...data.data])
+          setTotalPage(data.last_page)
+        })
       } catch (error) {
         console.log(error)
       } finally {
@@ -65,12 +67,13 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     const GetProducts = async () => {
       try {
         setIsLoading(true)
-        await HomePageApi.getProducts({ category_id, keyword, page: 1 }).then(
-          (data) => {
-            setProducts(data.data)
-            setTotalPage(data.last_page)
-          }
-        )
+        await HomePageApi.getProducts({
+          params: { category_id, keyword, page },
+          user_id: user.id,
+        }).then((data) => {
+          setProducts(data.data)
+          setTotalPage(data.last_page)
+        })
       } catch (error) {
         console.log(error)
       } finally {
@@ -92,7 +95,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
         setKeyWord,
         setCategory_id,
         category_id,
-        setProducts
+        setProducts,
       }}
     >
       {children}

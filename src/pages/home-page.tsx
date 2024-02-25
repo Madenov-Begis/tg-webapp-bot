@@ -5,13 +5,14 @@ import { Categories } from '@/features/home-page/ui/categories'
 import { PageHead } from '@/features/home-page/ui/page-head'
 import { ProductsList } from '@/features/home-page/ui/products-list'
 import { useTelegram } from '@/shared/hooks/useTelegram'
+import { HTTPError } from '@/shared/types/Errors'
 import { Input } from '@/shared/ui'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const HomePage = () => {
   const { locale } = useParams()
-  const { tg,  } = useTelegram()
+  const { tg, user } = useTelegram()
   const navigate = useNavigate()
 
   const {
@@ -28,15 +29,29 @@ const HomePage = () => {
 
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [categoryLoading, setCategoryLoading] = useState(false)
+  const [basketCount, setBasketCount] = useState(0)
+  const [error, setError] = useState('')
+
+  const getBasketCount = async () => {
+    try {
+      await HomePageApi.basketCount(user.id).then((data) =>
+        setBasketCount(data.count)
+      )
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   const getCategories = async () => {
     try {
       setCategoryLoading(true)
-      const res = await HomePageApi.getCategories()
+      const res = await HomePageApi.getCategories(user.id)
 
       setCategories(res)
     } catch (error) {
-      console.log(error)
+      const err = error as HTTPError
+
+      setError(err.message)
     } finally {
       setCategoryLoading(false)
     }
@@ -52,27 +67,31 @@ const HomePage = () => {
     tg.isClosingConfirmationEnabled = true
     tg.BackButton.hide()
     getCategories()
+    getBasketCount()
+
+    // window.location.reload()
+
+    // return () => window.location.reload()
   }, [])
 
   useEffect(() => {
-    if (products?.length) {
+    if (basketCount > 0) {
       tg.MainButton.show()
-      tg.MainButton.setText(`Перейти в корзину`)
+      tg.MainButton.setText(`Перейти в корзину (${basketCount})`)
       tg.MainButton.onClick(() => navigate(`/${locale}/cart`))
     }
-    if (!products?.length) {
+    if (!basketCount) {
       tg.MainButton.hide()
     }
 
     return () => {
       tg.MainButton.offClick(() => navigate(`/${locale}/cart`))
     }
-  }, [products?.length])
+  }, [basketCount])
 
   return (
     <>
-      <PageHead locale={locale} />
-
+      <PageHead locale={locale} basketCount={basketCount} />
       <Input
         label="Поиск"
         placeholder="Я ищью..."
@@ -89,7 +108,12 @@ const HomePage = () => {
 
       <div className="h-[1px] bg-black/20 mt-5"></div>
 
-      <ProductsList isLoading={isLoading} products={products} locale={locale} />
+      <ProductsList
+        isLoading={isLoading}
+        products={products}
+        locale={locale}
+        setBasketCount={setBasketCount}
+      />
 
       {page === totalPage ||
         (totalPage > 1 && (

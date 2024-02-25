@@ -2,10 +2,11 @@ import { CartApi } from '@/features/cart/api/cart-api'
 import { OrderApi } from '@/features/order/api/order-api'
 import { useTelegram } from '@/shared/hooks/useTelegram'
 import { HTTPError } from '@/shared/types/Errors'
-import { Input } from '@/shared/ui'
+import { Button, Input } from '@/shared/ui'
 import { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useHookFormMask } from 'use-mask-input'
 
 interface IFormInput {
   full_name: string
@@ -15,7 +16,7 @@ interface IFormInput {
 }
 
 const Order = () => {
-  const { tg } = useTelegram()
+  const { tg, user } = useTelegram()
   const navigate = useNavigate()
   const { locale } = useParams()
 
@@ -23,9 +24,10 @@ const Order = () => {
   const [deliverPrice, setDeliverPrice] = useState<number | undefined>(
     undefined
   )
-  const [basketIds, setBasketIds] = useState<number[]>([])
+  const [basketIds, setBasketIds] = useState<number[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [errorText, setErrorText] = useState('')
+  console.log(isLoading)
 
   const {
     register,
@@ -40,19 +42,17 @@ const Order = () => {
       basket_ids: [],
     },
   })
+  const registerWithMask = useHookFormMask(register)
 
   const getBasket = async () => {
     try {
-      setIsLoading(true)
-      await CartApi.getAll().then((data) => {
+      await CartApi.getAll(user.id).then((data) => {
         setBasketIds(data.baskets?.map((basket) => basket.id))
         setTotalPrice(data.total_price)
         setDeliverPrice(data.deleviry_price)
       })
     } catch (error) {
       console.log(error)
-    } finally {
-      setIsLoading(false)
     }
   }
 
@@ -71,33 +71,33 @@ const Order = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      await OrderApi.orderCreate({ ...data, basket_ids: basketIds }).then(
-        (data) => console.log(data)
-      )
-      reset()
-      setErrorText('')
-      navigate(`/${locale}`)
-      tg.showPopup('Ваш заказ успешно оформлен')
+      setIsLoading(true)
+      await OrderApi.orderCreate({
+        body: { ...data, basket_ids: basketIds, phone: data.phone.slice(1) },
+        userId: user.id,
+      }).then(() => {
+        setErrorText('')
+        navigate(`/${locale}`)
+        tg.showAlert('Ваш заказ успешно оформлен')
+        reset()
+      })
     } catch (error) {
       const err = error as HTTPError
 
       setErrorText(err.message)
+    } finally {
+      setIsLoading(false)
     }
   }
 
   useEffect(() => {
-    tg.MainButton.show()
-    tg.MainButton.setText('Заказать')
-    tg.MainButton.onClick(handleSubmit(onSubmit))
+    tg.MainButton.hide()
 
-    return () => {
-      tg.MainButton.offClick(handleSubmit(onSubmit))
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
-    <div className="flex flex-col h-[calc(100vh-45px)]">
+    <div className="relative flex flex-col h-[calc(100vh-45px)]">
       <div className="text-center font-bold text-lg mb-5">
         Оформление заказа
       </div>
@@ -129,7 +129,7 @@ const Order = () => {
           errorMessage={errors.full_name?.message}
           {...register('full_name', { required: 'Обязательное поле' })}
         />
-        <Input
+        {/* <Input
           placeholder="Номер телефона"
           label="Номер телефона"
           icon={false}
@@ -138,7 +138,28 @@ const Order = () => {
           errorMessage={errors.phone?.message}
           // setKeyWord={() => {}}
           {...register('phone', { required: 'Обязательное поле' })}
-        />
+        /> */}
+        <label className="form-control w-full">
+          <div className="label">
+            <span className="label-text font-medium">{'Номер телефона'}</span>
+          </div>
+          <input
+            type={'text'}
+            placeholder={'+998 00 000 00 00'}
+            className="input input-bordered input-secondary w-full"
+            {...registerWithMask('phone', '+999999999999', {
+              required: 'Обязательное поле',
+            })}
+          />
+          {errors.phone && (
+            <div className="label">
+              <span className="label-text-alt text-red-500">
+                {errors.phone.message}
+              </span>
+            </div>
+          )}
+        </label>
+
         <Input
           placeholder="Адрес"
           label="Адрес"
@@ -149,9 +170,14 @@ const Order = () => {
           // setKeyWord={() => {}}
           {...register('address', { required: 'Обязательное поле' })}
         />
-        <button className="btn" onClick={handleSubmit(onSubmit)}>
-          submit
-        </button>
+
+        <Button
+          title="Заказать"
+          onClick={handleSubmit(onSubmit)}
+          className="mt-10"
+          loading={isLoading}
+          disabled={isLoading}
+        />
       </form>
 
       <div className="flex-grow-0 p-3 mt-10 rounded-t-md shadow-md border text-xl">

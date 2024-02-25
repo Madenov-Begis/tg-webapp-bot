@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 interface SelectedProductsProps {
   locale: string | undefined
+  basketCount: number
 }
 
-export const PageHead = ({ locale }: SelectedProductsProps) => {
+export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {
   const { user } = useTelegram()
 
   const navigate = useNavigate()
@@ -13,7 +14,7 @@ export const PageHead = ({ locale }: SelectedProductsProps) => {
   return (
     <div className="flex justify-between items-center">
       <div>
-        <div className="text-2xl font-bold mb-2">Hello {user?.id}</div>
+        <div className="text-2xl font-bold mb-2">Hello {user?.name}</div>
         <div className="text-lg font-semibold text-black/40 mb-4">
           Welcome to shop
         </div>
@@ -60,6 +61,12 @@ export const PageHead = ({ locale }: SelectedProductsProps) => {
             strokeLinejoin="round"
           />
         </svg>
+
+        {basketCount ? (
+          <div className="badge badge-lg absolute top-0 right-0 translate-x-2 -translate-y-2 bg-[#1EA1F1] text-white">
+            {basketCount}
+          </div>
+        ) : null}
       </div>
     </div>
   )

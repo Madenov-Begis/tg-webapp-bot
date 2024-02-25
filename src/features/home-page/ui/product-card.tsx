@@ -2,13 +2,19 @@ import { Link } from 'react-router-dom'
 import { Button } from '../../../shared/ui'
 import { Product } from '../types/types'
 import { useAddToCart } from '@/shared/hooks/useAddToCart'
+import { Dispatch, SetStateAction } from 'react'
 
 interface ProductCardProps {
   product: Product
   locale: string | undefined
+  setBasketCount: Dispatch<SetStateAction<number>>
 }
 
-export const ProductCard = ({ product, locale }: ProductCardProps) => {
+export const ProductCard = ({
+  product,
+  locale,
+  setBasketCount,
+}: ProductCardProps) => {
   const { addToCArt, isLoading, error } = useAddToCart()
 
   return (
@@ -44,7 +50,10 @@ export const ProductCard = ({ product, locale }: ProductCardProps) => {
             <Button
               title="Добавить в корзину"
               loading={isLoading}
-              onClick={() => addToCArt(product.id)}
+              onClick={() => {
+                addToCArt(product.id)
+                setBasketCount((prev) => prev + 1)
+              }}
             />
           )}
         </div>

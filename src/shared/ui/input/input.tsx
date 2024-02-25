@@ -5,13 +5,21 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   placeholder: string
   icon: boolean
   type: string
-  setKeyWord?: (value: string) => void
+  setKeyWord?: (value: string) => void | undefined
   error?: boolean
   errorMessage?: string | undefined
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
-  const { label, placeholder, type, error, errorMessage, ...otherProps } = props
+  const {
+    label,
+    placeholder,
+    type,
+    error,
+    setKeyWord,
+    errorMessage,
+    ...otherProps
+  } = props
 
   return (
     <label className="form-control w-full">
@@ -23,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         placeholder={placeholder}
         className="input input-bordered input-secondary w-full"
         ref={ref}
-        // onChange={(e) => setKeyWord(e.target.value)}
+        onChange={(e) => setKeyWord(e.target.value)}
         {...otherProps}
       />
       {error && (

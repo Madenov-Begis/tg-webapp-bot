@@ -13,7 +13,12 @@ export interface Category {
 }
 
 export interface CreateBasketBody {
-  customer_id: string
   product_id: number | undefined
   count: number
+}
+
+export interface ProductParams {
+  page: number
+  keyword: string
+  category_id: number | null
 }
