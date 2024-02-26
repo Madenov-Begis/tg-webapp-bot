@@ -34,7 +34,9 @@ export const Categories = ({
               { 'bg-[#1EA1F1] text-white': category_id === 0 }
             )}
             onClick={() => setCategory_id(0)}
-          >Все</button>
+          >
+            Все
+          </button>
           {!categoryLoading &&
             categories?.map((category) => (
               <button
@@ -50,8 +52,6 @@ export const Categories = ({
               </button>
             ))}
         </div>
-
-        <div>{}</div>
       </div>
     </>
   )

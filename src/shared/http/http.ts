@@ -11,7 +11,6 @@ export const http = axios.create({
 
 http.interceptors.request.use(
   (config) => {
-    // config.headers.Authorization = `Bearer ${Cookies.get('token')}`
     config.headers['Accept-Language'] = 'ru'
 
     return config

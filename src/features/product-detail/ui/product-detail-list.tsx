@@ -15,8 +15,6 @@ export const ProductDetailList = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // const { addToCArt, isLoading, error } = useAddToCart()
-
   useEffect(() => {
     const getProductOne = async () => {
       try {
@@ -132,7 +130,7 @@ export const ProductDetailList = () => {
               title="Добавлено в корзину"
               loading={isLoading}
               onClick={() => {}}
-              className="btn-disabled border-none btn-lg"
+              className="btn-disabled border-none btn-lg mt-8"
             />
           )}
           {!product?.basket_count && (

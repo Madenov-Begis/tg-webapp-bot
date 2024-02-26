@@ -5,8 +5,8 @@ import { Categories } from '@/features/home-page/ui/categories'
 import { PageHead } from '@/features/home-page/ui/page-head'
 import { ProductsList } from '@/features/home-page/ui/products-list'
 import { useTelegram } from '@/shared/hooks/useTelegram'
-import { HTTPError } from '@/shared/types/Errors'
-import { Input } from '@/shared/ui'
+// import { HTTPError } from '@/shared/types/Errors'
+import { Input } from '@/shared/ui/input/input'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
@@ -30,7 +30,7 @@ const HomePage = () => {
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [categoryLoading, setCategoryLoading] = useState(false)
   const [basketCount, setBasketCount] = useState(0)
-  const [error, setError] = useState('')
+  // const [error, setError] = useState('')
 
   const getBasketCount = async () => {
     try {
@@ -49,18 +49,13 @@ const HomePage = () => {
 
       setCategories(res)
     } catch (error) {
-      const err = error as HTTPError
+      // const err = error as HTTPError
 
-      setError(err.message)
+      // setError(err.message)
     } finally {
       setCategoryLoading(false)
     }
   }
-
-  // useEffect(() => {
-  //   getProductsList()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [category_id, keyword])
 
   useEffect(() => {
     tg.ready()
@@ -68,10 +63,7 @@ const HomePage = () => {
     tg.BackButton.hide()
     getCategories()
     getBasketCount()
-
-    // window.location.reload()
-
-    // return () => window.location.reload()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -87,6 +79,7 @@ const HomePage = () => {
     return () => {
       tg.MainButton.offClick(() => navigate(`/${locale}/cart`))
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [basketCount])
 
   return (
@@ -94,7 +87,7 @@ const HomePage = () => {
       <PageHead locale={locale} basketCount={basketCount} />
       <Input
         label="Поиск"
-        placeholder="Я ищью..."
+        placeholder="Поиск"
         icon={true}
         type="search"
         setKeyWord={setKeyWord}

@@ -1,12 +1,13 @@
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Controller, SubmitHandler, useForm } from 'react-hook-form'
+import { PatternFormat } from 'react-number-format'
+
 import { CartApi } from '@/features/cart/api/cart-api'
 import { OrderApi } from '@/features/order/api/order-api'
 import { useTelegram } from '@/shared/hooks/useTelegram'
 import { HTTPError } from '@/shared/types/Errors'
-import { Button, Input } from '@/shared/ui'
-import { useEffect, useState } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useHookFormMask } from 'use-mask-input'
+import { Button, InputRef } from '@/shared/ui'
 
 interface IFormInput {
   full_name: string
@@ -33,6 +34,7 @@ const Order = () => {
     register,
     handleSubmit,
     reset,
+    control,
     formState: { errors },
   } = useForm<IFormInput>({
     defaultValues: {
@@ -42,7 +44,6 @@ const Order = () => {
       basket_ids: [],
     },
   })
-  const registerWithMask = useHookFormMask(register)
 
   const getBasket = async () => {
     try {
@@ -58,9 +59,11 @@ const Order = () => {
 
   useEffect(() => {
     getBasket()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
+    tg.MainButton.hide()
     tg.BackButton.show()
 
     tg.BackButton.onClick(() => {
@@ -90,12 +93,6 @@ const Order = () => {
     }
   }
 
-  useEffect(() => {
-    tg.MainButton.hide()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
   return (
     <div className="relative flex flex-col h-[calc(100vh-45px)]">
       <div className="text-center font-bold text-lg mb-5">
@@ -120,7 +117,7 @@ const Order = () => {
         </div>
       )}
       <form className="flex-grow" onSubmit={handleSubmit(onSubmit)}>
-        <Input
+        <InputRef
           placeholder="ФИО"
           label="ФИО"
           icon={false}
@@ -129,48 +126,50 @@ const Order = () => {
           errorMessage={errors.full_name?.message}
           {...register('full_name', { required: 'Обязательное поле' })}
         />
-        {/* <Input
-          placeholder="Номер телефона"
-          label="Номер телефона"
-          icon={false}
-          type="number"
-          error={!!errors.phone}
-          errorMessage={errors.phone?.message}
-          // setKeyWord={() => {}}
-          {...register('phone', { required: 'Обязательное поле' })}
-        /> */}
+
         <label className="form-control w-full">
           <div className="label">
             <span className="label-text font-medium">{'Номер телефона'}</span>
           </div>
-          <input
-            type={'text'}
-            placeholder={'+998 00 000 00 00'}
-            className="input input-bordered input-secondary w-full"
-            {...registerWithMask('phone', '+999999999999', {
-              required: 'Обязательное поле',
-            })}
+          <Controller
+            name={'phone'}
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, name, value } }) => (
+              <PatternFormat
+                type="tel"
+                placeholder="+998 00 000 00 00"
+                format="+998 ## ### ## ##"
+                allowEmptyFormatting
+                mask=" "
+                className="input input-bordered input-secondary w-full"
+                name={name}
+                onChange={onChange}
+                value={value}
+                required={true}
+              />
+            )}
           />
           {errors.phone && (
             <div className="label">
               <span className="label-text-alt text-red-500">
-                {errors.phone.message}
+                Обязательное поле
               </span>
             </div>
           )}
         </label>
 
-        <Input
+        <InputRef
           placeholder="Адрес"
           label="Адрес"
           icon={false}
           type="text"
           error={!!errors.address}
           errorMessage={errors.address?.message}
-          // setKeyWord={() => {}}
           {...register('address', { required: 'Обязательное поле' })}
         />
-
         <Button
           title="Заказать"
           onClick={handleSubmit(onSubmit)}

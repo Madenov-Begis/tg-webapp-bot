@@ -1,16 +1,16 @@
-import { InputHTMLAttributes, forwardRef } from 'react'
+import { InputHTMLAttributes } from 'react'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string
   placeholder: string
   icon: boolean
   type: string
-  setKeyWord?: (value: string) => void | undefined
+  setKeyWord: (value: string) => void
   error?: boolean
   errorMessage?: string | undefined
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
+export const Input = (props: InputProps) => {
   const {
     label,
     placeholder,
@@ -30,7 +30,6 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
         type={type}
         placeholder={placeholder}
         className="input input-bordered input-secondary w-full"
-        ref={ref}
         onChange={(e) => setKeyWord(e.target.value)}
         {...otherProps}
       />
@@ -41,6 +40,4 @@ export const Input = forwardRef<HTMLInputElement, InputProps>((props, ref) => {
       )}
     </label>
   )
-})
-
-Input.displayName = 'Input'
+}
