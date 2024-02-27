@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const BASE_URL_API = 'https://begis.24go.uz/client/v1'
+const BASE_URL_API = 'https://deliver-shop.uz/api/client/v1'
 
 export const http = axios.create({
   baseURL: BASE_URL_API,
