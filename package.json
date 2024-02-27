@@ -19,7 +19,6 @@
     "react-i18next": "^14.0.5",
     "react-number-format": "^5.3.3",
     "react-router-dom": "^6.22.0",
-    "use-mask-input": "^3.3.7",
     "usehooks-ts": "^2.14.0"
   },
   "devDependencies": {
