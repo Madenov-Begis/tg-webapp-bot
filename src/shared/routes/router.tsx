@@ -13,7 +13,7 @@ const MyOrders = lazy(() => import('@/pages/my-orders'))
 
 export const router = createBrowserRouter([
   {
-    path: '/:locale',
+    path: '/lang/:locale',
     element: <Layout />,
     children: [
       {
