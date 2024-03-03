@@ -53,7 +53,7 @@ const AdminOrder = () => {
                 <img
                   src={item.product.image}
                   alt="product-image"
-                  className="w-[28%] h-[120px]rounded-sm"
+                  className="w-[28%] h-[120px] rounded-sm"
                 />
                 <div className="flex flex-col w-[75%]">
                   <div className="font-bold line-clamp-2">
