@@ -30,7 +30,6 @@ http.interceptors.response.use(
         error.response.status === 401 &&
         !error.config.url.includes('get-me')
       ) {
-        // Cookies.remove('token')
         return Promise.reject(error.response.data)
       }
 
