@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const Cart = () => {
   const isFirstRender = useFirstRender()
-  const { tg, user } = useTelegram()
+  const { tg } = useTelegram()
   const navigate = useNavigate()
   const { locale } = useParams()
 
@@ -35,7 +35,7 @@ const Cart = () => {
     try {
       if (isFirstRender) setIsLoading(true)
 
-      await CartApi.getAll(user.id).then((data) => {
+      await CartApi.getAll().then((data) => {
         setCartItem(data.baskets)
         setTotalPrice(data.total_price)
         setDeliverPrice(data.deleviry_price)
@@ -55,7 +55,7 @@ const Cart = () => {
   const handleDelete = async (id: number) => {
     try {
       setDeleteIsloading(id)
-      await CartApi.delete({ id, user_id: user.id })
+      await CartApi.delete({ id })
       getBasket()
     } catch (error) {
       console.log(error)
@@ -67,7 +67,7 @@ const Cart = () => {
   const handleAddCount = async (id: number) => {
     try {
       setPlusLoading(id)
-      await CartApi.changeCount({ id, body: { count: 1 }, user_id: user.id })
+      await CartApi.changeCount({ id, body: { count: 1 } })
       getBasket()
     } catch (error) {
       console.log(error)
@@ -80,7 +80,7 @@ const Cart = () => {
     try {
       if (count > 1) {
         setMinusLoading(id)
-        await CartApi.changeCount({ id, body: { count: -1 }, user_id: user.id })
+        await CartApi.changeCount({ id, body: { count: -1 } })
 
         getBasket()
       }

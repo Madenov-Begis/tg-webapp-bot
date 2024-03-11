@@ -1,6 +1,5 @@
 import { HomePageApi } from '@/features/home-page/api/home-page-api'
 import { useState } from 'react'
-import { useTelegram } from './useTelegram'
 import { useProductList } from '@/features/home-page/context/products-list'
 import { HTTPError } from '../types/Errors'
 
@@ -9,7 +8,7 @@ export const useAddToCart = () => {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const { user } = useTelegram()
+ 
   const { setProducts } = useProductList()
 
   const addToCArt = async (productId: number | undefined) => {
@@ -20,7 +19,6 @@ export const useAddToCart = () => {
           count: 1,
           product_id: productId,
         },
-        user_id: user.id,
       })
 
       setProducts((prev) => {

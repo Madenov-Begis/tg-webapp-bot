@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const HomePage = () => {
   const { locale } = useParams()
-  const { tg, user } = useTelegram()
+  const { tg } = useTelegram()
   const navigate = useNavigate()
 
   const {
@@ -34,9 +34,7 @@ const HomePage = () => {
 
   const getBasketCount = async () => {
     try {
-      await HomePageApi.basketCount(user.id).then((data) =>
-        setBasketCount(data.count)
-      )
+      await HomePageApi.basketCount().then((data) => setBasketCount(data.count))
     } catch (error) {
       console.log(error)
     }
@@ -45,12 +43,11 @@ const HomePage = () => {
   const getCategories = async () => {
     try {
       setCategoryLoading(true)
-      const res = await HomePageApi.getCategories(user.id)
+      const res = await HomePageApi.getCategories()
 
       setCategories(res)
     } catch (error) {
       // const err = error as HTTPError
-
       // setError(err.message)
     } finally {
       setCategoryLoading(false)

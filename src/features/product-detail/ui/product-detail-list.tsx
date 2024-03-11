@@ -4,10 +4,8 @@ import { ProductDetail } from '../types/product-detail'
 import { ProductDetailApi } from '../api/product-detail-api'
 import { useParams } from 'react-router-dom'
 import { HomePageApi } from '@/features/home-page/api/home-page-api'
-import { useTelegram } from '@/shared/hooks/useTelegram'
 
 export const ProductDetailList = () => {
-  const { user } = useTelegram()
   const { id } = useParams()
 
   const [product, setProduct] = useState<ProductDetail | null>(null)
@@ -19,7 +17,7 @@ export const ProductDetailList = () => {
     const getProductOne = async () => {
       try {
         setIsFetching(true)
-        await ProductDetailApi.getProductDetail(id, user.id).then((data) =>
+        await ProductDetailApi.getProductDetail(id).then((data) =>
           setProduct(data)
         )
       } catch (error) {
@@ -40,7 +38,6 @@ export const ProductDetailList = () => {
           count: 1,
           product_id: productId,
         },
-        user_id: user.id,
       })
       setProduct({
         category: product?.category ? product.category : undefined,

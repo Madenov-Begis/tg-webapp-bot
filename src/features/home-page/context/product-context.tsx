@@ -9,7 +9,6 @@ import {
 import { Product } from '../types/types'
 import { DebouncedState, useDebounceValue } from 'usehooks-ts'
 import { HomePageApi } from '../api/home-page-api'
-import { useTelegram } from '@/shared/hooks/useTelegram'
 
 interface ProductContextProps {
   products: Product[]
@@ -31,7 +30,6 @@ interface ProductProviderProps {
 }
 
 export const ProductProvider = ({ children }: ProductProviderProps) => {
-  const { user } = useTelegram()
   const [products, setProducts] = useState<Product[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [isPageLoading, setIsPageLoading] = useState(false)
@@ -46,7 +44,6 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
         setIsPageLoading(true)
         await HomePageApi.getProducts({
           params: { category_id, keyword, page },
-          user_id: user.id,
         }).then((data) => {
           setProducts((prev) => [...prev, ...data.data])
           setTotalPage(data.last_page)
@@ -69,7 +66,6 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
         setIsLoading(true)
         await HomePageApi.getProducts({
           params: { category_id, keyword, page },
-          user_id: user.id,
         }).then((data) => {
           setProducts(data.data)
           setTotalPage(data.last_page)
