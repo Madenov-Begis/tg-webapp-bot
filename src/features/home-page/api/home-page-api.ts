@@ -10,7 +10,7 @@ import { ResponseWithPagination } from '@/shared/types/Response'
 export const HomePageApi = {
   getProducts: async ({
     params,
-    user_id,
+    // user_id,
   }: {
     params: ProductParams
     user_id: number
@@ -23,9 +23,9 @@ export const HomePageApi = {
         limit: 10,
         sort: 'ASC',
       },
-      headers: {
-        ['user-id']: user_id,
-      },
+      // headers: {
+      //   ['user-id']: user_id,
+      // },
     })
 
     return data

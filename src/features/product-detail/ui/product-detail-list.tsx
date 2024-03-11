@@ -113,12 +113,7 @@ export const ProductDetailList = () => {
           {!isFetching && (
             <>
               <div className="font-bold">Описание</div>
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo
-                provident officia ex quibusdam quidem, suscipit aperiam sequi,
-                nemo earum culpa voluptatum, quasi sint eius sunt voluptatem
-                alias vel ab nulla!
-              </div>
+              <div>{product?.description}</div>
             </>
           )}
         </div>
