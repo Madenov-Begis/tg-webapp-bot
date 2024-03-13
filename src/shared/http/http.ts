@@ -16,8 +16,6 @@ export const http = axios.create({
 
 http.interceptors.request.use(
   (config) => {
-    config.headers['Accept-Language'] = 'ru'
-
     return config
   },
   (error) => {
