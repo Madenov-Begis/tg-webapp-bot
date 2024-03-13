@@ -8,13 +8,7 @@ import {
 import { ResponseWithPagination } from '@/shared/types/Response'
 
 export const HomePageApi = {
-  getProducts: async ({
-    params,
-    // user_id,
-  }: {
-    params: ProductParams
-    user_id: number
-  }) => {
+  getProducts: async ({ params }: { params: ProductParams }) => {
     const { data } = await http<ResponseWithPagination<Product[]>>('product', {
       params: {
         page: params.page,
@@ -23,46 +17,25 @@ export const HomePageApi = {
         limit: 10,
         sort: 'ASC',
       },
-      // headers: {
-      //   ['user-id']: user_id,
-      // },
     })
 
     return data
   },
 
-  getCategories: async (user_id: number) => {
-    const { data } = await http<Category[]>('/category', {
-      headers: {
-        ['user-id']: user_id,
-      },
-    })
+  getCategories: async () => {
+    const { data } = await http<Category[]>('/category')
 
     return data
   },
 
-  addToBasket: async ({
-    body,
-    user_id,
-  }: {
-    body: CreateBasketBody
-    user_id: number
-  }) => {
-    const { data } = await http.post('/basket', body, {
-      headers: {
-        ['user-id']: user_id,
-      },
-    })
+  addToBasket: async ({ body }: { body: CreateBasketBody }) => {
+    const { data } = await http.post('/basket', body)
 
     return data
   },
 
-  basketCount: async (user_id: number) => {
-    const { data } = await http<{ count: number }>('/basket/count', {
-      headers: {
-        ['user-id']: user_id,
-      },
-    })
+  basketCount: async () => {
+    const { data } = await http<{ count: number }>('/basket/count')
 
     return data
   },

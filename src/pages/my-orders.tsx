@@ -1,25 +1,22 @@
 import { MyOrdersApi } from '@/features/my-orders/api/my-orders'
 import { MyOrdersType } from '@/features/my-orders/types/my-orders-type'
-import { useTelegram } from '@/shared/hooks/useTelegram'
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 
 const MyOrders = () => {
-  const { user } = useTelegram()
-
   const [myOrders, setMyOrders] = useState<MyOrdersType[] | null>(null)
   const [toggle, setToggle] = useState(false)
 
   useEffect(() => {
     const getMyOrders = async () => {
       try {
-        await MyOrdersApi.getAll(user.id).then((data) => setMyOrders(data.data))
+        await MyOrdersApi.getAll().then((data) => setMyOrders(data.data))
       } catch (error) {
         console.log(error)
       }
     }
     getMyOrders()
-  }, [user.id])
+  }, [])
 
   return (
     <>

@@ -20,7 +20,7 @@ interface IFormInput {
 const Order = () => {
   const { t } = useTranslation()
 
-  const { tg, user } = useTelegram()
+  const { tg } = useTelegram()
   const navigate = useNavigate()
   const { locale } = useParams()
 
@@ -49,7 +49,7 @@ const Order = () => {
 
   const getBasket = async () => {
     try {
-      await CartApi.getAll(user.id).then((data) => {
+      await CartApi.getAll().then((data) => {
         setBasketIds(data.baskets?.map((basket) => basket.id))
         setTotalPrice(data.total_price)
         setDeliverPrice(data.deleviry_price)
@@ -79,7 +79,6 @@ const Order = () => {
       setIsLoading(true)
       await OrderApi.orderCreate({
         body: { ...data, basket_ids: basketIds, phone: data.phone.slice(1) },
-        userId: user.id,
       }).then(() => {
         setErrorText('')
         navigate(`/${locale}`)

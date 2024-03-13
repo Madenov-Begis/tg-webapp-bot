@@ -4,26 +4,16 @@ import { OrderFormBody, Orders } from '../types/order-types'
 export const OrderApi = {
   orderCreate: async ({
     body,
-    userId,
   }: {
     body: OrderFormBody
-    userId: number
   }) => {
-    const { data } = await http.post('/order', body, {
-      headers: {
-        ['user-id']: userId,
-      },
-    })
+    const { data } = await http.post('/order', body)
 
     return data
   },
 
-  getAll: async (userId: number) => {
-    const { data } = await http<Orders[]>('/order', {
-      headers: {
-        ['user-id']: userId,
-      },
-    })
+  getAll: async () => {
+    const { data } = await http<Orders[]>('/order')
 
     return data
   },
