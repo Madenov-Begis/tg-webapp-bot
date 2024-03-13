@@ -2,17 +2,26 @@ import { MyOrdersApi } from '@/features/my-orders/api/my-orders'
 import { MyOrdersType } from '@/features/my-orders/types/my-orders-type'
 import { useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { HTTPError } from '@/shared/types/Errors'
+import { ErrorAlert } from '@/shared/ui/error-alert/error-alert'
 
 const MyOrders = () => {
   const [myOrders, setMyOrders] = useState<MyOrdersType[] | null>(null)
   const [toggle, setToggle] = useState(false)
+  const [isLoading, setIsloading] = useState(false)
+  const [error, setError] = useState('')
 
   useEffect(() => {
     const getMyOrders = async () => {
+      setIsloading(true)
       try {
         await MyOrdersApi.getAll().then((data) => setMyOrders(data.data))
       } catch (error) {
-        console.log(error)
+        const err = error as HTTPError
+
+        setError(err.message)
+      } finally {
+        setIsloading(false)
       }
     }
     getMyOrders()
@@ -21,8 +30,8 @@ const MyOrders = () => {
   return (
     <>
       <div className="font-bold text-center text-xl mb-10">Мои заказы</div>
-      {myOrders?.length ? (
-        myOrders.map((order) => (
+      {!!isLoading &&
+        myOrders?.map((order) => (
           <>
             <div
               className={clsx(
@@ -96,10 +105,22 @@ const MyOrders = () => {
               </div>
             </div>
           </>
-        ))
-      ) : (
+        ))}
+
+      {isLoading &&
+        (myOrders?.length === 0 ? (
+          <div className="w-full h-screen flex justify-center items-center">
+            <div className="text-2xl font-semibold">Ни чего не найдено</div>
+          </div>
+        ) : (
+          <div className="w-full h-screen flex justify-center items-center">
+            <span className="loading loading-spinner loading-lg"></span>
+          </div>
+        ))}
+
+      {!!error && (
         <div className="w-full h-screen flex justify-center items-center">
-          <span className="loading loading-spinner loading-lg"></span>
+          <ErrorAlert errorText={error} />
         </div>
       )}
     </>
