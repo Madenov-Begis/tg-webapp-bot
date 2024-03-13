@@ -48,7 +48,7 @@ const HomePage = () => {
   const getCategories = async () => {
     try {
       setCategoryLoading(true)
-      const res = await HomePageApi.getCategories()
+      const res = await HomePageApi.getCategories(locale)
 
       setCategories(res)
     } catch (error) {

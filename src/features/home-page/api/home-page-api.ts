@@ -8,7 +8,13 @@ import {
 import { ResponseWithPagination } from '@/shared/types/Response'
 
 export const HomePageApi = {
-  getProducts: async ({ params }: { params: ProductParams }) => {
+  getProducts: async ({
+    params,
+    locale,
+  }: {
+    params: ProductParams
+    locale: string | undefined
+  }) => {
     const { data } = await http<ResponseWithPagination<Product[]>>('product', {
       params: {
         page: params.page,
@@ -17,13 +23,20 @@ export const HomePageApi = {
         limit: 10,
         sort: 'ASC',
       },
+      headers: {
+        ['Accept-Language']: locale,
+      },
     })
 
     return data
   },
 
-  getCategories: async () => {
-    const { data } = await http<Category[]>('/category')
+  getCategories: async (locale: string | undefined) => {
+    const { data } = await http<Category[]>('/category', {
+      headers: {
+        ['Accept-Language']: locale,
+      },
+    })
 
     return data
   },

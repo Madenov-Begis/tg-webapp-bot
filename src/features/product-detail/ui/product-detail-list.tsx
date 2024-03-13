@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 import { HomePageApi } from '@/features/home-page/api/home-page-api'
 
 export const ProductDetailList = () => {
-  const { id } = useParams()
+  const { id, locale } = useParams()
 
   const [product, setProduct] = useState<ProductDetail | null>(null)
   const [isFetching, setIsFetching] = useState(false)
@@ -17,8 +17,8 @@ export const ProductDetailList = () => {
     const getProductOne = async () => {
       try {
         setIsFetching(true)
-        await ProductDetailApi.getProductDetail(id).then((data) =>
-          setProduct(data)
+        await ProductDetailApi.getProductDetail({ locale, productId: id }).then(
+          (data) => setProduct(data)
         )
       } catch (error) {
         console.log(error)
