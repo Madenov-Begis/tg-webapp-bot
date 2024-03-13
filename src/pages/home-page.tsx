@@ -5,15 +5,18 @@ import { Categories } from '@/features/home-page/ui/categories'
 import { PageHead } from '@/features/home-page/ui/page-head'
 import { ProductsList } from '@/features/home-page/ui/products-list'
 import { useTelegram } from '@/shared/hooks/useTelegram'
-// import { HTTPError } from '@/shared/types/Errors'
+import { HTTPError } from '@/shared/types/Errors'
+import { ErrorAlert } from '@/shared/ui/error-alert/error-alert'
 import { Input } from '@/shared/ui/input/input'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const HomePage = () => {
   const { locale } = useParams()
   const { tg, user } = useTelegram()
   const navigate = useNavigate()
+  const {t} = useTranslation()
 
   const {
     isLoading,
@@ -30,7 +33,7 @@ const HomePage = () => {
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [categoryLoading, setCategoryLoading] = useState(false)
   const [basketCount, setBasketCount] = useState(0)
-  // const [error, setError] = useState('')
+  const [error, setError] = useState('')
 
   const getBasketCount = async () => {
     try {
@@ -38,7 +41,9 @@ const HomePage = () => {
         setBasketCount(data.count)
       )
     } catch (error) {
-      console.log(error)
+      const err = error as HTTPError
+
+      setError(err.message)
     }
   }
 
@@ -49,9 +54,9 @@ const HomePage = () => {
 
       setCategories(res)
     } catch (error) {
-      // const err = error as HTTPError
+      const err = error as HTTPError
 
-      // setError(err.message)
+      setError(err.message)
     } finally {
       setCategoryLoading(false)
     }
@@ -69,7 +74,7 @@ const HomePage = () => {
   useEffect(() => {
     if (basketCount > 0) {
       tg.MainButton.show()
-      tg.MainButton.setText(`Перейти в корзину (${basketCount})`)
+      tg.MainButton.setText(`${t('goToCart')} (${basketCount})`)
       tg.MainButton.onClick(() => navigate(`/${locale}/cart`))
     }
     if (!basketCount) {
@@ -85,13 +90,17 @@ const HomePage = () => {
   return (
     <>
       <PageHead locale={locale} basketCount={basketCount} />
+      
       <Input
-        label="Поиск"
-        placeholder="Поиск"
+        label={t('search')}
+        placeholder={t('search')}
         icon={true}
         type="search"
         setKeyWord={setKeyWord}
       />
+
+      {error && <ErrorAlert errorText={error} />}
+
       <Categories
         categoryLoading={categoryLoading}
         categories={categories}
@@ -118,7 +127,7 @@ const HomePage = () => {
               {isPageLoading && (
                 <span className="loading loading-spinner"></span>
               )}
-              Показать ещё 10
+              {t('show10')}
             </button>
           </div>
         ))}

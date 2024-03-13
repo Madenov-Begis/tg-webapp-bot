@@ -5,9 +5,12 @@ import { CartPoduct } from '@/features/cart/ui/cart-product'
 import useFirstRender from '@/shared/hooks/useFirstRender'
 import { useTelegram } from '@/shared/hooks/useTelegram'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const Cart = () => {
+  const { t } = useTranslation()
+
   const isFirstRender = useFirstRender()
   const { tg, user } = useTelegram()
   const navigate = useNavigate()
@@ -94,7 +97,7 @@ const Cart = () => {
   useEffect(() => {
     if (cartItem?.length) {
       tg.MainButton.show()
-      tg.MainButton.setText('Перейти к оформлению')
+      tg.MainButton.setText(t('goToOrder'))
       tg.MainButton.onClick(() => navigate(`/${locale}/order`))
     }
     if (!cartItem?.length) {
@@ -109,7 +112,7 @@ const Cart = () => {
 
   return (
     <div className="flex flex-col h-[calc(100vh-45px)]">
-      <div className="text-center font-bold text-lg mb-5">Корзина</div>
+      <div className="text-center font-bold text-lg mb-5">{t('cart')}</div>
       <div className="flex-grow">
         {isLoading &&
           [1, 2, 3, 4].map((item) => (

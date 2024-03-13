@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { Category } from '../types/types'
+import { useTranslation } from 'react-i18next'
 
 interface CategoryProps {
   categoryLoading: boolean
@@ -14,9 +15,11 @@ export const Categories = ({
   setCategory_id,
   category_id,
 }: CategoryProps) => {
+  const { t } = useTranslation()
+
   return (
     <>
-      <div className="font-bold text-lg mt-5">Выберите категорию</div>
+      <div className="font-bold text-lg mt-5">{t('chooseCategory')}</div>
 
       <div className="overflow-x-auto scroll-m-4 no-scrollbar">
         <div className="inline-flex rounded-md mt-5 gap-5 select-none">
@@ -35,7 +38,7 @@ export const Categories = ({
             )}
             onClick={() => setCategory_id(0)}
           >
-            Все
+            {t('all')}
           </button>
           {!categoryLoading &&
             categories?.map((category) => (

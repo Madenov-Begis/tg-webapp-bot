@@ -3,6 +3,7 @@ import { Button } from '../../../shared/ui'
 import { Product } from '../types/types'
 import { useAddToCart } from '@/shared/hooks/useAddToCart'
 import { Dispatch, SetStateAction } from 'react'
+import { useTranslation } from 'react-i18next'
 
 interface ProductCardProps {
   product: Product
@@ -15,6 +16,8 @@ export const ProductCard = ({
   locale,
   setBasketCount,
 }: ProductCardProps) => {
+  const { t } = useTranslation()
+
   const { addToCArt, isLoading, error } = useAddToCart()
 
   return (
@@ -33,13 +36,15 @@ export const ProductCard = ({
           <div className="font-medium text-black/40 mb-2">
             {product.category}
           </div>
-          <div className="font-medium flex-grow">Цена: {product.price}</div>
+          <div className="font-medium flex-grow">
+            {t('price')}: {product.price}
+          </div>
         </Link>
 
         <div className="mt-[22px]">
           {product.basket_count && (
             <Button
-              title="Добавлено в корзину"
+              title={t('addedToCart')}
               loading={isLoading}
               onClick={() => {}}
               className="btn-disabled border-none"
@@ -48,7 +53,7 @@ export const ProductCard = ({
 
           {!product.basket_count && (
             <Button
-              title="Добавить в корзину"
+              title={t('addToCart')}
               loading={isLoading}
               onClick={() => {
                 addToCArt(product.id)

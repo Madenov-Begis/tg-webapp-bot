@@ -1,5 +1,6 @@
 import { IconButton } from '@/shared/ui/icon-button/icon-button'
 import { CartItem } from '../types/cart-types'
+import { useTranslation } from 'react-i18next'
 
 interface CartItemProps {
   item: CartItem
@@ -21,6 +22,9 @@ export const CartPoduct = (props: CartItemProps) => {
     isPlusLoading,
     isDeleteLoading,
   } = props
+
+  const {t} = useTranslation()
+
   return (
     <div className="flex gap-4 rounded-md shadow-md p-2 mb-5" key={item.id}>
       <img
@@ -31,7 +35,7 @@ export const CartPoduct = (props: CartItemProps) => {
       <div className="flex flex-col w-[75%]">
         <div className="font-bold line-clamp-2">{item.product.title}</div>
         <div className="flex-grow opacity-50 font-medium">
-          Цена: {item.product.price}
+          {t('price')}: {item.product.price}
         </div>
 
         <div className="flex justify-between items-center">

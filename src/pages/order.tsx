@@ -8,6 +8,7 @@ import { OrderApi } from '@/features/order/api/order-api'
 import { useTelegram } from '@/shared/hooks/useTelegram'
 import { HTTPError } from '@/shared/types/Errors'
 import { Button, InputRef } from '@/shared/ui'
+import { useTranslation } from 'react-i18next'
 
 interface IFormInput {
   full_name: string
@@ -17,6 +18,8 @@ interface IFormInput {
 }
 
 const Order = () => {
+  const { t } = useTranslation()
+
   const { tg, user } = useTelegram()
   const navigate = useNavigate()
   const { locale } = useParams()
@@ -28,7 +31,6 @@ const Order = () => {
   const [basketIds, setBasketIds] = useState<number[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [errorText, setErrorText] = useState('')
-  console.log(isLoading)
 
   const {
     register,
@@ -81,7 +83,7 @@ const Order = () => {
       }).then(() => {
         setErrorText('')
         navigate(`/${locale}`)
-        tg.showAlert('Ваш заказ успешно оформлен')
+        tg.showAlert(t('successOrder'))
         reset()
       })
     } catch (error) {
@@ -96,7 +98,7 @@ const Order = () => {
   return (
     <div className="relative flex flex-col h-[calc(100vh-45px)]">
       <div className="text-center font-bold text-lg mb-5">
-        Оформление заказа
+        {t('orderProduct')}
       </div>
       {errorText && (
         <div role="alert" className="alert alert-error">
@@ -124,12 +126,12 @@ const Order = () => {
           type="text"
           error={!!errors.full_name}
           errorMessage={errors.full_name?.message}
-          {...register('full_name', { required: 'Обязательное поле' })}
+          {...register('full_name', { required: t('required') })}
         />
 
         <label className="form-control w-full">
           <div className="label">
-            <span className="label-text font-medium">{'Номер телефона'}</span>
+            <span className="label-text font-medium">{t('phone')}</span>
           </div>
           <Controller
             name={'phone'}
@@ -155,23 +157,23 @@ const Order = () => {
           {errors.phone && (
             <div className="label">
               <span className="label-text-alt text-red-500">
-                Обязательное поле
+                {t('required')}
               </span>
             </div>
           )}
         </label>
 
         <InputRef
-          placeholder="Адрес"
-          label="Адрес"
+          placeholder={t('address')}
+          label={t('address')}
           icon={false}
           type="text"
           error={!!errors.address}
           errorMessage={errors.address?.message}
-          {...register('address', { required: 'Обязательное поле' })}
+          {...register('address', { required: t('required') })}
         />
         <Button
-          title="Заказать"
+          title={t('order')}
           onClick={handleSubmit(onSubmit)}
           className="mt-10"
           loading={isLoading}
@@ -181,15 +183,15 @@ const Order = () => {
 
       <div className="flex-grow-0 p-3 mt-10 rounded-t-md shadow-md border text-xl">
         <div className="flex justify-between items-center">
-          <div>Сумма товаров:</div>
+          <div>{t('allPrice')}:</div>
           <div>{totalPrice?.toLocaleString()} сум</div>
         </div>
         <div className="flex justify-between items-center">
-          <div>Доставка:</div>
+          <div>{t('deliver')}:</div>
           <div>{deliverPrice} сум</div>
         </div>
         <div className="flex justify-between items-center border-t pt-3 mt-3">
-          <div className="font-bold text-2xl">Итого:</div>
+          <div className="font-bold text-2xl">{t('itogo')}:</div>
           <div className="font-bold text-2xl">
             {totalPrice?.toLocaleString()} сум
           </div>

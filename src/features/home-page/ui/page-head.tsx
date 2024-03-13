@@ -16,11 +16,9 @@ export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {
   return (
     <div className="flex justify-between items-center">
       <div>
-        <div className="text-2xl font-bold mb-2">
-          {t('hello')} {user?.name}
-        </div>
+        <div className="text-2xl font-bold mb-2">Sogdisha-brand</div>
         <div className="text-lg font-semibold text-black/40 mb-4">
-          Welcome to shop
+          {t('welcome')} {user?.username}
         </div>
       </div>
       <div
