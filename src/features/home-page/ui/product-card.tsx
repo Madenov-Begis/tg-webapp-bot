@@ -36,6 +36,13 @@ export const ProductCard = ({
           <div className="font-medium text-black/40 mb-2">
             {product.category}
           </div>
+
+          {product.status ? (
+            <span className="font-semibold text-[#1EA1F1] mb-2">Есть в наличии</span>
+          ) : (
+            <span className="font-semibold text-red-500 mb-2">Нет в наличии</span>
+          )}
+
           <div className="font-medium flex-grow">
             {t('price')}: {product.price}
           </div>

@@ -6,4 +6,5 @@ export interface ProductDetail {
   category: string | undefined
   price: number | undefined
   basket_count: number | null
+  status: number | undefined
 }

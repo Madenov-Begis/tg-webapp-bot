@@ -46,6 +46,7 @@ export const ProductDetailList = () => {
         image: product?.image ? product.image : undefined,
         price: product?.price ? product.price : undefined,
         title: product?.title ? product.title : undefined,
+        status: product?.status ? product.status : undefined,
         basket_count: 1,
       })
     } catch (error) {
@@ -84,13 +85,24 @@ export const ProductDetailList = () => {
             <div className="skeleton rounded-md w-1/3 h-[20px] mt-2"></div>
           )}
           {!isFetching && (
-            <div className="font-medium text-black/40 mt-2">
+            <div className="font-medium text-black/40 mt-2 mb-2">
               {product?.category}
             </div>
           )}
 
+          {!isFetching &&
+            (product?.status ? (
+              <span className="font-semibold text-[#1EA1F1] mb-2">
+                Есть в наличии
+              </span>
+            ) : (
+              <span className="font-semibold text-red-500 mb-2">
+                Нет в наличии
+              </span>
+            ))}
+
           {isFetching && (
-            <div className="skeleton rounded-md w-1/2 h-[32px] mt-5 mb-2"></div>
+            <div className="skeleton rounded-md w-1/2 h-[32px] mt-3 mb-2"></div>
           )}
           {!isFetching && (
             <div className="font-medium text-2xl flex-grow mb-2 mt-5">

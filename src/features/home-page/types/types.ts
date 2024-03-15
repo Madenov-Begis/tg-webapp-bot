@@ -5,6 +5,7 @@ export interface Product {
   price: number
   image: string
   basket_count: number | null
+  status: number
 }
 
 export interface Category {
