@@ -28,9 +28,9 @@ const MyOrders = () => {
   }, [])
 
   return (
-    <>
-      <div className="font-bold text-center text-xl mb-10">Мои заказы</div>
-      {!!isLoading &&
+    <div className="flex flex-col space-y-10 h-screen">
+      <div className="font-bold text-center text-xl">Мои заказы</div>
+      {!isLoading &&
         myOrders?.map((order) => (
           <>
             <div
@@ -109,21 +109,17 @@ const MyOrders = () => {
 
       {isLoading &&
         (myOrders?.length === 0 ? (
-          <div className="w-full h-screen flex justify-center items-center">
-            <div className="text-2xl font-semibold">Ни чего не найдено</div>
+          <div className="w-full flex justify-center items-center basis-[80%]">
+            <div className="text-2xl font-semibold">Нет заказы</div>
           </div>
-        ) : (
-          <div className="w-full h-screen flex justify-center items-center">
-            <span className="loading loading-spinner loading-lg"></span>
-          </div>
-        ))}
+        ) : null)}
 
       {!!error && (
-        <div className="w-full h-screen flex justify-center items-center">
+        <div className="w-full flex justify-center items-center basis-[80%]">
           <ErrorAlert errorText={error} />
         </div>
       )}
-    </>
+    </div>
   )
 }
 
