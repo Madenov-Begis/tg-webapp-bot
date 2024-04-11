@@ -23,13 +23,13 @@ export const ProductCard = ({
   return (
     <>
       {error && <div>{error}</div>}
-      <div key={product.id} className="p-[15px] rounded-md shadow-lg gap-5">
-        <Link to={`/${locale}/product/${product.id}`}>
+      <div key={product.id} className="p-[15px] rounded-md shadow-lg gap-5 flex flex-col">
+        <Link to={`/${locale}/product/${product.id}`} className='flex-grow'>
           <img
             loading="lazy"
             src={product.image}
             alt="product-foto"
-            className="w-full h-[200px] rounded-md mb-2"
+            className="w-full h-[300px] rounded-md mb-2"
           />
 
           <div className="text-lg font-bold">{product.title}</div>
@@ -43,12 +43,12 @@ export const ProductCard = ({
             <span className="font-semibold text-red-500 mb-2">Нет в наличии</span>
           )}
 
-          <div className="font-medium flex-grow">
+          <div className="font-medium flex-shrink-0">
             {t('price')}: {product.price}
           </div>
         </Link>
 
-        <div className="mt-[22px]">
+        <div className="mt-[22px] flex-grow-0">
           {product.basket_count && (
             <Button
               title={t('addedToCart')}
