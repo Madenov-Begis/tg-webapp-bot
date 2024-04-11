@@ -16,7 +16,7 @@ export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {
   return (
     <div className="flex justify-between items-center">
       <div>
-        <div className="text-2xl font-bold mb-2">SOGDISHA BRAND</div>
+        <div className="text-2xl font-bold mb-2">SALTANAT KOSMETIKA</div>
         <div className="text-lg font-semibold text-black/40 mb-4">
           {t('welcome')} {user?.username}
         </div>

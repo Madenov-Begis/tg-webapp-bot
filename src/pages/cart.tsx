@@ -38,7 +38,7 @@ const Cart = () => {
     try {
       if (isFirstRender) setIsLoading(true)
 
-      await CartApi.getAll().then((data) => {
+      await CartApi.getAll(locale).then((data) => {
         setCartItem(data.baskets)
         setTotalPrice(data.total_price)
         setDeliverPrice(data.deleviry_price)
@@ -58,7 +58,7 @@ const Cart = () => {
   const handleDelete = async (id: number) => {
     try {
       setDeleteIsloading(id)
-      await CartApi.delete({ id })
+      await CartApi.delete({ id, locale })
       getBasket()
     } catch (error) {
       console.log(error)
@@ -70,7 +70,7 @@ const Cart = () => {
   const handleAddCount = async (id: number) => {
     try {
       setPlusLoading(id)
-      await CartApi.changeCount({ id, body: { count: 1 } })
+      await CartApi.changeCount({ id, body: { count: 1 }, locale })
       getBasket()
     } catch (error) {
       console.log(error)
@@ -83,7 +83,7 @@ const Cart = () => {
     try {
       if (count > 1) {
         setMinusLoading(id)
-        await CartApi.changeCount({ id, body: { count: -1 } })
+        await CartApi.changeCount({ id, body: { count: -1 }, locale })
 
         getBasket()
       }

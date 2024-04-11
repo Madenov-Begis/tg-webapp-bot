@@ -44,7 +44,7 @@ export const ProductCard = ({
           )}
 
           <div className="font-medium flex-shrink-0">
-            {t('price')}: {product.price}
+            {t('price')}: {product.price.toLocaleString()}
           </div>
         </Link>
 

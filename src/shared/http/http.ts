@@ -4,14 +4,13 @@ const BASE_URL_API = 'https://deliver-shop.uz/api/client/v1'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-expect-error
-// const tg = window.Telegram.WebApp
+const tg = window.Telegram.WebApp
 
 export const http = axios.create({
   baseURL: BASE_URL_API,
   headers: {
     Accept: 'application/json',
-    // ['user-id']: tg.initDataUnsafe?.user.id,
-    ['user-id']: 985012637,
+    ['user-id']: tg.initDataUnsafe?.user.id,
     // ['user-id']: 985012637,
   },
 })

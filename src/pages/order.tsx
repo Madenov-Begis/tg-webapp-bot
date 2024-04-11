@@ -49,7 +49,7 @@ const Order = () => {
 
   const getBasket = async () => {
     try {
-      await CartApi.getAll().then((data) => {
+      await CartApi.getAll(locale).then((data) => {
         setBasketIds(data.baskets?.map((basket) => basket.id))
         setTotalPrice(data.total_price)
         setDeliverPrice(data.deleviry_price)
@@ -79,6 +79,7 @@ const Order = () => {
       setIsLoading(true)
       await OrderApi.orderCreate({
         body: { ...data, basket_ids: basketIds, phone: data.phone.slice(1) },
+        locale,
       }).then(() => {
         setErrorText('')
         navigate(`/${locale}`)

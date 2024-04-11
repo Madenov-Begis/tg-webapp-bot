@@ -61,16 +61,16 @@ export const ProductDetailList = () => {
   return (
     <>
       <div className="flex flex-col h-[calc(100vh-45px)]">
-        <div className="flex-grow">
+        <div className="flex-grow w-[85%] mx-auto">
           {isFetching && (
-            <div className="skeleton rounded-md w-full h-[300px]"></div>
+            <div className="skeleton rounded-md w-full h-[400px]"></div>
           )}
           {!isFetching && (
             <img
               src={product?.image}
               loading="lazy"
               alt="product-image"
-              className="w-full h-[300px] rounded-md"
+              className="w-full h-[500px] rounded-md"
             />
           )}
 
@@ -106,7 +106,7 @@ export const ProductDetailList = () => {
           )}
           {!isFetching && (
             <div className="font-medium text-2xl flex-grow mb-2 mt-5">
-              Цена: {product?.price}
+              Цена: {product?.price?.toLocaleString()}
             </div>
           )}
 
