@@ -9,13 +9,18 @@ const tg = window.Telegram.WebApp
 
 const locale = localStorage.getItem('locale')
 
+const telegramId =
+  typeof tg !== 'undefined' && tg.initDataUnsafe?.user?.id
+    ? tg.initDataUnsafe.user.id
+    : null
+
 export const http = axios.create({
   baseURL: BASE_URL_API,
   headers: {
     Accept: 'application/json',
-    ['telegram-id']: tg.initDataUnsafe?.user.id,
+    ...(telegramId && { 'telegram-id': telegramId }),
     // ['telegram-id']: 985012637,
-    'Accept-Language': locale ?? 'ru'
+    'Accept-Language': locale ?? 'ru',
   },
 })
 
