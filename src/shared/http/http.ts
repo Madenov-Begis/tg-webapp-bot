@@ -13,8 +13,8 @@ export const http = axios.create({
   baseURL: BASE_URL_API,
   headers: {
     Accept: 'application/json',
-    // ['telegram-id']: tg.initDataUnsafe?.user.id,
-    ['telegram-id']: 985012637,
+    ['telegram-id']: tg.initDataUnsafe?.user.id,
+    // ['telegram-id']: 985012637,
     'Accept-Language': locale ?? 'ru'
   },
 })
