@@ -7,12 +7,15 @@ const BASE_URL_API = 'https://api.deliver-shop.uz/api/client/v1'
 //@ts-expect-error
 const tg = window.Telegram.WebApp
 
+const locale = localStorage.getItem('locale')
+
 export const http = axios.create({
   baseURL: BASE_URL_API,
   headers: {
     Accept: 'application/json',
-    // ['user-id']: tg.initDataUnsafe?.user.id,
+    // ['telegram-id']: tg.initDataUnsafe?.user.id,
     ['telegram-id']: 985012637,
+    'Accept-Language': locale ?? 'ru'
   },
 })
 

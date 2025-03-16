@@ -7,8 +7,11 @@ const Layout = () => {
   const { locale } = useParams()
 
   useEffect(() => {
-    i18n.changeLanguage(locale)
-  }, [])
+    if (locale) {
+      localStorage.setItem('locale', locale)
+      i18n.changeLanguage(locale)
+    }
+  }, [i18n, locale])
 
   return (
     <>
