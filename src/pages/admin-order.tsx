@@ -16,7 +16,7 @@ const AdminOrder = () => {
     const getAdminOrder = async () => {
       try {
         setIsloading(true)
-        await AdminOrderApi.getOrder(uuid).then((data) => setNewOrder(data))
+        await AdminOrderApi.getOrder(uuid).then((data) => setNewOrder(data.data))
       } catch (error) {
         const err = error as HTTPError
 
