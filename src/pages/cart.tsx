@@ -39,9 +39,9 @@ const Cart = () => {
       if (isFirstRender) setIsLoading(true)
 
       await CartApi.getAll(locale).then((data) => {
-        setCartItem(data.baskets)
-        setTotalPrice(data.total_price)
-        setDeliverPrice(data.deleviry_price)
+        setCartItem(data.data.baskets)
+        setTotalPrice(data.data.total_price)
+        setDeliverPrice(data.data.deleviry_price)
       })
     } catch (error) {
       console.log(error)

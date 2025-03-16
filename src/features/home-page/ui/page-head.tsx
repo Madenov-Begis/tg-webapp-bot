@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 
 interface SelectedProductsProps {
   locale: string | undefined
-  basketCount: number
+  basketCount: number | null
 }
 
 export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {

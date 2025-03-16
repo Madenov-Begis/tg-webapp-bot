@@ -33,7 +33,7 @@ export const CartPoduct = (props: CartItemProps) => {
         className="w-[28%] h-[100px] rounded-md"
       />
       <div className="flex flex-col w-[75%]">
-        <div className="font-bold line-clamp-2">{item.product.title}</div>
+        <div className="font-bold line-clamp-2">{item.product.name}</div>
         <div className="flex-grow opacity-50 font-medium">
           {t('price')}: {item.product.price}
         </div>

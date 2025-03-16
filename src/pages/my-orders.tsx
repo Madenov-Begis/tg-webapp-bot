@@ -4,8 +4,10 @@ import { useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { HTTPError } from '@/shared/types/Errors'
 import { ErrorAlert } from '@/shared/ui/error-alert/error-alert'
+import { useParams } from 'react-router-dom'
 
 const MyOrders = () => {
+  const { locale } = useParams()
   const [myOrders, setMyOrders] = useState<MyOrdersType[] | null>(null)
   const [toggle, setToggle] = useState(false)
   const [isLoading, setIsloading] = useState(false)
@@ -15,7 +17,7 @@ const MyOrders = () => {
     const getMyOrders = async () => {
       setIsloading(true)
       try {
-        await MyOrdersApi.getAll().then((data) => setMyOrders(data.data))
+        await MyOrdersApi.getAll(locale).then((data) => setMyOrders(data.data.data))
       } catch (error) {
         const err = error as HTTPError
 

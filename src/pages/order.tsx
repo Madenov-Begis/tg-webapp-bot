@@ -50,9 +50,9 @@ const Order = () => {
   const getBasket = async () => {
     try {
       await CartApi.getAll(locale).then((data) => {
-        setBasketIds(data.baskets?.map((basket) => basket.id))
-        setTotalPrice(data.total_price)
-        setDeliverPrice(data.deleviry_price)
+        setBasketIds(data.data.baskets?.map((basket) => basket.id))
+        setTotalPrice(data.data.total_price)
+        setDeliverPrice(data.data.deleviry_price)
       })
     } catch (error) {
       console.log(error)

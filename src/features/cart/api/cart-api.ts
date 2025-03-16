@@ -1,9 +1,10 @@
 import { http } from '@/shared/http/http'
 import { Cart } from '../types/cart-types'
+import { ResponseWithData } from '@/shared/types/Response'
 
 export const CartApi = {
   getAll: async (locale: string | undefined) => {
-    const { data } = await http<Cart>('/basket', {
+    const { data } = await http<ResponseWithData<Cart>>('/basket', {
       headers: {
         ['Accept-Language']: locale,
       },

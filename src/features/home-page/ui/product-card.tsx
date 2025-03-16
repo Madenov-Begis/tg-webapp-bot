@@ -32,12 +32,12 @@ export const ProductCard = ({
             className="w-full h-[300px] rounded-md mb-2"
           />
 
-          <div className="text-lg font-bold">{product.title}</div>
+          <div className="text-lg font-bold">{product.name}</div>
           <div className="font-medium text-black/40 mb-2">
-            {product.category}
+            {product.category.name}
           </div>
 
-          {product.status ? (
+          {product.is_active ? (
             <span className="font-semibold text-[#1EA1F1] mb-2">Есть в наличии</span>
           ) : (
             <span className="font-semibold text-red-500 mb-2">Нет в наличии</span>

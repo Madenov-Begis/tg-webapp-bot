@@ -1,11 +1,14 @@
 export interface Product {
   id: number
-  title: string
-  category: string
-  price: number
+  name: string
+  description: string
   image: string
+  price: string
   basket_count: number | null
-  status: number
+  is_active: boolean
+  category: Category
+  created_at: string
+  updated_at: string
 }
 
 export interface Category {

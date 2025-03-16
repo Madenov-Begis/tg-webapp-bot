@@ -30,16 +30,6 @@ export const Categories = ({
                 className="skeleton w-[100px] h-[38px] rounded-md"
               ></div>
             ))}
-          <button
-            type="button"
-            className={clsx(
-              'rounded-lg border shadow-sm border-gray-200 text-sm font-medium px-4 py-2 text-gray-900',
-              { 'bg-[#1EA1F1] text-white': category_id === 0 }
-            )}
-            onClick={() => setCategory_id(0)}
-          >
-            {t('all')}
-          </button>
           {!categoryLoading &&
             categories?.map((category) => (
               <button

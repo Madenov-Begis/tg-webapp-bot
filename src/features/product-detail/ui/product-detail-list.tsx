@@ -18,7 +18,7 @@ export const ProductDetailList = () => {
       try {
         setIsFetching(true)
         await ProductDetailApi.getProductDetail({ locale, productId: id }).then(
-          (data) => setProduct(data)
+          (data) => setProduct(data.data)
         )
       } catch (error) {
         console.log(error)
@@ -38,16 +38,13 @@ export const ProductDetailList = () => {
           count: 1,
           product_id: productId,
         },
-      })
-      setProduct({
-        category: product?.category ? product.category : undefined,
-        description: product?.description ? product.description : undefined,
-        id: product?.id ? product.id : undefined,
-        image: product?.image ? product.image : undefined,
-        price: product?.price ? product.price : undefined,
-        title: product?.title ? product.title : undefined,
-        status: product?.status ? product.status : undefined,
-        basket_count: 1,
+      }).then(() => {
+        if (product) {
+          setProduct({
+            ...product,
+            basket_count: 1,
+          })
+        }
       })
     } catch (error) {
       const err = error as Error
@@ -86,12 +83,12 @@ export const ProductDetailList = () => {
           )}
           {!isFetching && (
             <div className="font-medium text-black/40 mt-2 mb-2">
-              {product?.category}
+              {product?.category.name}
             </div>
           )}
 
           {!isFetching &&
-            (product?.status ? (
+            (product?.is_active ? (
               <span className="font-semibold text-[#1EA1F1] mb-2">
                 Есть в наличии
               </span>

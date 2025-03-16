@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL_API = 'https://deliver-shop.uz/api/client/v1'
+const BASE_URL_API = 'https://api.deliver-shop.uz/api/client/v1'
+// const BASE_URL_API = 'http://172.20.10.8:8080/api/client/v1'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-expect-error
@@ -11,7 +12,7 @@ export const http = axios.create({
   headers: {
     Accept: 'application/json',
     // ['user-id']: tg.initDataUnsafe?.user.id,
-    ['user-id']: 985012637,
+    ['telegram-id']: 985012637,
   },
 })
 

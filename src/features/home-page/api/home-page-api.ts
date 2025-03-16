@@ -5,7 +5,10 @@ import {
   Product,
   ProductParams,
 } from '../types/types'
-import { ResponseWithPagination } from '@/shared/types/Response'
+import {
+  ResponseWithData,
+  ResponseWithPagination,
+} from '@/shared/types/Response'
 
 export const HomePageApi = {
   getProducts: async ({
@@ -32,7 +35,7 @@ export const HomePageApi = {
   },
 
   getCategories: async (locale: string | undefined) => {
-    const { data } = await http<Category[]>('/category', {
+    const { data } = await http<ResponseWithData<Category[]>>('/category', {
       headers: {
         ['Accept-Language']: locale,
       },
@@ -48,7 +51,7 @@ export const HomePageApi = {
   },
 
   basketCount: async () => {
-    const { data } = await http<{ count: number }>('/basket/count')
+    const { data } = await http<{ data: {count: number} }>('/basket/count')
 
     return data
   },

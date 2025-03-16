@@ -39,7 +39,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   const [totalPage, setTotalPage] = useState(1)
   const [page, setPage] = useState<number>(1)
   const [keyword, setKeyWord] = useDebounceValue<string>('', 500)
-  const [category_id, setCategory_id] = useState<number | null>(0)
+  const [category_id, setCategory_id] = useState<number | null>(null)
 
   useEffect(() => {
     const GetProducts = async () => {
@@ -49,8 +49,8 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
           params: { category_id, keyword, page },
           locale,
         }).then((data) => {
-          setProducts((prev) => [...prev, ...data.data])
-          setTotalPage(data.last_page)
+          setProducts((prev) => [...prev, ...data.data.data])
+          setTotalPage(data.data.last_page)
         })
       } catch (error) {
         console.log(error)
@@ -61,8 +61,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
     if (!(page === 1)) {
       GetProducts()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page])
+  }, [category_id, keyword, locale, page])
 
   useEffect(() => {
     const GetProducts = async () => {
@@ -72,8 +71,8 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
           params: { category_id, keyword, page },
           locale,
         }).then((data) => {
-          setProducts(data.data)
-          setTotalPage(data.last_page)
+          setProducts(data.data.data)
+          setTotalPage(data.data.last_page)
         })
       } catch (error) {
         console.log(error)
@@ -82,7 +81,7 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
       }
     }
     GetProducts()
-  }, [keyword, category_id])
+  }, [keyword, category_id, page, locale])
 
   return (
     <ProductContext.Provider

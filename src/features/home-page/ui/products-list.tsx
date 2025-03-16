@@ -13,8 +13,10 @@ export const ProductsList = ({
   isLoading,
   locale,
   products,
-  setBasketCount
+  setBasketCount,
 }: ProductsListProps) => {
+  console.log(products)
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
       {isLoading &&
@@ -25,7 +27,12 @@ export const ProductsList = ({
       {!isLoading &&
         products?.map((product) => {
           return (
-            <ProductCard locale={locale} product={product} key={product.id} setBasketCount={setBasketCount}/>
+            <ProductCard
+              locale={locale}
+              product={product}
+              key={product.id}
+              setBasketCount={setBasketCount}
+            />
           )
         })}
     </div>

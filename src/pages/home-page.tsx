@@ -16,7 +16,7 @@ const HomePage = () => {
   const { locale } = useParams()
   const { tg } = useTelegram()
   const navigate = useNavigate()
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   const {
     isLoading,
@@ -32,12 +32,13 @@ const HomePage = () => {
 
   const [categories, setCategories] = useState<Category[] | null>(null)
   const [categoryLoading, setCategoryLoading] = useState(false)
-  const [basketCount, setBasketCount] = useState(0)
+  const [basketCount, setBasketCount] = useState<number>(0)
   const [error, setError] = useState('')
+  console.log(basketCount)
 
   const getBasketCount = async () => {
     try {
-      await HomePageApi.basketCount().then((data) => setBasketCount(data.count))
+      await HomePageApi.basketCount().then((data) => setBasketCount(data.data.count))
     } catch (error) {
       const err = error as HTTPError
 
@@ -50,7 +51,7 @@ const HomePage = () => {
       setCategoryLoading(true)
       const res = await HomePageApi.getCategories(locale)
 
-      setCategories(res)
+      setCategories(res.data)
     } catch (error) {
       const err = error as HTTPError
 
@@ -88,7 +89,7 @@ const HomePage = () => {
   return (
     <>
       <PageHead locale={locale} basketCount={basketCount} />
-      
+
       <Input
         label={t('search')}
         placeholder={t('search')}
