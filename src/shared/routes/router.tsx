@@ -46,7 +46,7 @@ export const router = createBrowserRouter([
               </div>
             }
           >
-            <AdminOrder />,
+            <AdminOrder />
           </Suspense>
         ),
       },
@@ -60,7 +60,7 @@ export const router = createBrowserRouter([
               </div>
             }
           >
-            <MyOrders />,
+            <MyOrders />
           </Suspense>
         ),
       },

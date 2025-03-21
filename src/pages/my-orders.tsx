@@ -32,7 +32,7 @@ const MyOrders = () => {
   }, [locale])
 
   return (
-    <div className="flex flex-col gap-4 h-screen items-start pb-10">
+    <div className="flex flex-col gap-4 items-start">
       <div className="font-bold text-center text-xl">Мои заказы</div>
       {!isLoading &&
         myOrders?.map((order) => (
@@ -80,7 +80,7 @@ const MyOrders = () => {
                 </div>
               </div>
               <div className="collapse-content min-h-max">
-                <div className='flex flex-col gap-3'>
+                <div className="flex flex-col gap-3">
                   {order.items?.length &&
                     order.items.map((item) => {
                       return (
@@ -113,16 +113,15 @@ const MyOrders = () => {
           </>
         ))}
 
-      {isLoading &&
-        (myOrders?.length === 0 ? (
-          <div className="w-full flex justify-center items-center basis-[80%]">
-            <div className="text-2xl font-semibold">Нет заказы</div>
-          </div>
-        ) : null)}
+      {myOrders?.length === 0 && (
+        <div className="w-full flex justify-center items-center basis-[80%]">
+          <div className="text-2xl font-semibold">Нет заказы</div>
+        </div>
+      )}
 
       {!!error && (
         <div className="w-full flex flex-col items-center basis-[80%]">
-          <ErrorAlert errorText={'qwdqwd'} />
+          <ErrorAlert errorText={error} />
         </div>
       )}
     </div>
