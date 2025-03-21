@@ -23,14 +23,17 @@ export const CartPoduct = (props: CartItemProps) => {
     isDeleteLoading,
   } = props
 
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   return (
-    <div className="flex gap-4 rounded-md shadow-md p-2 mb-5" key={item.id}>
+    <div
+      className="flex gap-4 rounded-md p-2 mb-5 border border-[#62626233]"
+      key={item.id}
+    >
       <img
         src={item.product.image}
         alt="product-image"
-        className="w-[28%] h-[100px] rounded-md"
+        className="w-[28%] aspect-[4/3] rounded-md  object-cove"
       />
       <div className="flex flex-col w-[75%]">
         <div className="font-bold line-clamp-2">{item.product.name}</div>
@@ -43,7 +46,9 @@ export const CartPoduct = (props: CartItemProps) => {
             <IconButton
               onClick={() => handleMinusCount(item.id, item.count)}
               loading={isMinusLoading === item.id ? true : false}
-              disabled={isMinusLoading === item.id ? true : false}
+              disabled={
+                isMinusLoading === item.id ? true : false || item.count === 1
+              }
             >
               &minus;
             </IconButton>

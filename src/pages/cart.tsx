@@ -4,6 +4,7 @@ import { CartFooter } from '@/features/cart/ui/cart-footer'
 import { CartPoduct } from '@/features/cart/ui/cart-product'
 import useFirstRender from '@/shared/hooks/useFirstRender'
 import { useTelegram } from '@/shared/hooks/useTelegram'
+import { Button } from '@/shared/ui'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -133,6 +134,19 @@ const Cart = () => {
               />
             )
           })}
+
+        {cartItem?.length === 0 && (
+          <>
+            <div className="text-center">{t('emptyCart')}</div>
+
+            <Button
+              title={t('catalog')}
+              loading={isLoading}
+              onClick={() => navigate('/' + locale)}
+              className="mt-3 w-32 mx-auto block"
+            />
+          </>
+        )}
       </div>
 
       <CartFooter deliverPrice={deliverPrice} totalPrice={totalPrice} />

@@ -34,11 +34,12 @@ const HomePage = () => {
   const [categoryLoading, setCategoryLoading] = useState(false)
   const [basketCount, setBasketCount] = useState<number>(0)
   const [error, setError] = useState('')
-  console.log(basketCount)
 
   const getBasketCount = async () => {
     try {
-      await HomePageApi.basketCount().then((data) => setBasketCount(data.data.count))
+      await HomePageApi.basketCount().then((data) =>
+        setBasketCount(data.data.count)
+      )
     } catch (error) {
       const err = error as HTTPError
 

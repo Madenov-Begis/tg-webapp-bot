@@ -19,9 +19,7 @@ export const Button = (props: ButtonProps) => {
     <button
       onClick={onClick}
       className={clsx('btn w-full hover:bg-', className)}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-expect-error
-      disabled={loading && 'disabled'}
+      disabled={loading}
     >
       {loading && <span className="loading loading-spinner"></span>}
       {title}

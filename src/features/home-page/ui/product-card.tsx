@@ -4,6 +4,7 @@ import { Product } from '../types/types'
 import { useAddToCart } from '@/shared/hooks/useAddToCart'
 import { Dispatch, SetStateAction } from 'react'
 import { useTranslation } from 'react-i18next'
+import { clsx } from 'clsx'
 
 interface ProductCardProps {
   product: Product
@@ -23,13 +24,16 @@ export const ProductCard = ({
   return (
     <>
       {error && <div>{error}</div>}
-      <div key={product.id} className="p-[15px] rounded-md shadow-lg gap-5 flex flex-col">
-        <Link to={`/${locale}/product/${product.id}`} className='flex-grow'>
+      <div
+        key={product.id}
+        className="p-[15px] border border-[#71717133] rounded-md shadow-sm shadow-base-300 gap-5 flex flex-col"
+      >
+        <Link to={`/${locale}/product/${product.id}`} className="flex-grow">
           <img
             loading="lazy"
             src={product.image}
             alt="product-foto"
-            className="w-full h-[300px] rounded-md mb-2"
+            className="w-full aspect-[4/3] rounded-md mb-2 object-cover"
           />
 
           <div className="text-lg font-bold">{product.name}</div>
@@ -38,9 +42,13 @@ export const ProductCard = ({
           </div>
 
           {product.is_active ? (
-            <span className="font-semibold text-[#1EA1F1] mb-2">Есть в наличии</span>
+            <span className="font-semibold text-[#1EA1F1] mb-2">
+              Есть в наличии
+            </span>
           ) : (
-            <span className="font-semibold text-red-500 mb-2">Нет в наличии</span>
+            <span className="font-semibold text-red-500 mb-2">
+              Нет в наличии
+            </span>
           )}
 
           <div className="font-medium flex-shrink-0">
@@ -49,7 +57,7 @@ export const ProductCard = ({
         </Link>
 
         <div className="mt-[22px] flex-grow-0">
-          {product.basket_count && (
+          {!!product.basket_count && (
             <Button
               title={t('addedToCart')}
               loading={isLoading}
@@ -62,6 +70,9 @@ export const ProductCard = ({
             <Button
               title={t('addToCart')}
               loading={isLoading}
+              className={clsx({
+                'btn-disabled border-none': !product.is_active,
+              })}
               onClick={() => {
                 addToCArt(product.id)
                 setBasketCount((prev) => prev + 1)
