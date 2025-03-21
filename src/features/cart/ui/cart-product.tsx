@@ -33,7 +33,7 @@ export const CartPoduct = (props: CartItemProps) => {
       <img
         src={item.product.image}
         alt="product-image"
-        className="w-[28%] aspect-[4/3] rounded-md  object-cove"
+        className="w-[28%] aspect-[4/3] rounded-md object-cove"
       />
       <div className="flex flex-col w-[75%]">
         <div className="font-bold line-clamp-2">{item.product.name}</div>

@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 const MyOrders = () => {
   const { locale } = useParams()
   const [myOrders, setMyOrders] = useState<MyOrdersType[] | null>(null)
-  const [toggle, setToggle] = useState(false)
+  const [activeOrder, setActiveOrder] = useState<number | null>(null)
   const [isLoading, setIsloading] = useState(false)
   const [error, setError] = useState('')
 
@@ -17,7 +17,9 @@ const MyOrders = () => {
     const getMyOrders = async () => {
       setIsloading(true)
       try {
-        await MyOrdersApi.getAll(locale).then((data) => setMyOrders(data.data.data))
+        await MyOrdersApi.getAll(locale).then((data) =>
+          setMyOrders(data.data.data)
+        )
       } catch (error) {
         const err = error as HTTPError
 
@@ -27,24 +29,26 @@ const MyOrders = () => {
       }
     }
     getMyOrders()
-  }, [])
+  }, [locale])
 
   return (
-    <div className="flex flex-col space-y-10 h-screen">
+    <div className="flex flex-col gap-4 h-screen items-start pb-10">
       <div className="font-bold text-center text-xl">Мои заказы</div>
       {!isLoading &&
         myOrders?.map((order) => (
           <>
             <div
               className={clsx(
-                'collapse collapse-arrow bg-transparent mb-5 border-2 shadow-md',
+                'collapse collapse-arrow bg-transparent border border-[#71717133] min-h-max',
                 {
-                  'collapse-close': toggle,
+                  'collapse-close': activeOrder !== order.id,
                 }
               )}
-              onClick={() => setToggle(!toggle)}
+              onClick={() =>
+                setActiveOrder((prev) => (prev === order.id ? null : order.id))
+              }
             >
-              <input type="radio" name="my-accordion-1" />
+              <input type="radio" name={order.id.toString()} />
               <div className="collapse-title text-xl font-medium">
                 <div className="flex justify-start items-center gap-5 mb-3">
                   <div>Номер заказа:</div>
@@ -75,19 +79,19 @@ const MyOrders = () => {
                   </div>
                 </div>
               </div>
-              <div className="collapse-content">
-                <div>
+              <div className="collapse-content min-h-max">
+                <div className='flex flex-col gap-3'>
                   {order.items?.length &&
                     order.items.map((item) => {
                       return (
                         <div
-                          className="flex gap-4 rounded-md shadow-sm p-2 mb-5 border"
+                          className="flex gap-4 rounded-md shadow-sm p-2 border"
                           key={item.id}
                         >
                           <img
                             src={item.product.image}
                             alt="product-image"
-                            className="w-[28%] h-[100px] rounded-md"
+                            className="w-[28%] aspect-[4/3] rounded-md object-cove"
                           />
                           <div className="flex flex-col w-[75%]">
                             <div className="font-bold line-clamp-2">
@@ -117,8 +121,8 @@ const MyOrders = () => {
         ) : null)}
 
       {!!error && (
-        <div className="w-full flex justify-center items-center basis-[80%]">
-          <ErrorAlert errorText={error} />
+        <div className="w-full flex flex-col items-center basis-[80%]">
+          <ErrorAlert errorText={'qwdqwd'} />
         </div>
       )}
     </div>

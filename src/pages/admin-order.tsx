@@ -16,7 +16,9 @@ const AdminOrder = () => {
     const getAdminOrder = async () => {
       try {
         setIsloading(true)
-        await AdminOrderApi.getOrder(uuid).then((data) => setNewOrder(data.data))
+        await AdminOrderApi.getOrder(uuid).then((data) =>
+          setNewOrder(data.data)
+        )
       } catch (error) {
         const err = error as HTTPError
 
@@ -40,7 +42,7 @@ const AdminOrder = () => {
 
       {!isLoading && (
         <div>
-          <div className="font-bold text-center text-xl mb-10">Новый заказ</div>
+          <div className="font-bold text-center text-xl mb-7">Новый заказ</div>
 
           <div className="flex justify-start gap-5 mb-3">
             <div>ФИО:</div>
@@ -62,13 +64,13 @@ const AdminOrder = () => {
           {newOrder?.items.map((item) => {
             return (
               <div
-                className="flex gap-4 rounded-md shadow-md p-2 mb-5"
+                className="flex gap-4 rounded-md border border-[#71717133] shadow-sm p-2 mb-5"
                 key={item.id}
               >
                 <img
                   src={item.product.image}
                   alt="product-image"
-                  className="w-[28%] h-[120px] rounded-sm"
+                  className="w-[28%] aspect-[4/3] rounded-md object-cove"
                 />
                 <div className="flex flex-col w-[75%]">
                   <div className="font-bold line-clamp-2">
