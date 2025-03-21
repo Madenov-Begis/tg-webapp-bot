@@ -4,6 +4,7 @@ import { ProductDetail } from '../types/product-detail'
 import { ProductDetailApi } from '../api/product-detail-api'
 import { useParams } from 'react-router-dom'
 import { HomePageApi } from '@/features/home-page/api/home-page-api'
+import clsx from 'clsx'
 
 export const ProductDetailList = () => {
   const { id, locale } = useParams()
@@ -67,7 +68,7 @@ export const ProductDetailList = () => {
               src={product?.image}
               loading="lazy"
               alt="product-image"
-              className="w-full h-[350px] rounded-md"
+              className="w-full h-[350px] rounded-md object-cover"
             />
           )}
 
@@ -126,7 +127,7 @@ export const ProductDetailList = () => {
         <div className="flex-grow-0">
           {error && <div>{error}</div>}
 
-          {product?.basket_count && (
+          {!!product?.basket_count && (
             <Button
               title="Добавлено в корзину"
               loading={isLoading}
@@ -138,10 +139,12 @@ export const ProductDetailList = () => {
             <Button
               title="Добавить в корзину"
               loading={isLoading}
+              className={clsx('btn-lg mt-8', {
+                'btn-disabled border-none': !product?.is_active,
+              })}
               onClick={() => {
                 addToCArt(product?.id)
               }}
-              className="btn-lg mt-8"
             />
           )}
         </div>

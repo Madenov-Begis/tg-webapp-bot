@@ -33,10 +33,10 @@ export const ProductCard = ({
             loading="lazy"
             src={product.image}
             alt="product-foto"
-            className="w-full aspect-[4/3] rounded-md mb-2 object-cover"
+            className="w-full aspect-[3/4] rounded-md mb-2 object-cover"
           />
 
-          <div className="text-lg font-bold">{product.name}</div>
+          <div className="text-md font-bold">{product.name}</div>
           <div className="font-medium text-black/40 mb-2">
             {product.category.name}
           </div>
