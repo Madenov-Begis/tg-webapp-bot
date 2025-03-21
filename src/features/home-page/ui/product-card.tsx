@@ -26,7 +26,7 @@ export const ProductCard = ({
       {error && <div>{error}</div>}
       <div
         key={product.id}
-        className="p-[15px] border border-[#71717133] rounded-md shadow-sm shadow-base-300 gap-5 flex flex-col"
+        className="p-3 border border-[#71717133] rounded-md shadow-sm shadow-base-300 gap-5 flex flex-col"
       >
         <Link to={`/${locale}/product/${product.id}`} className="flex-grow">
           <img
