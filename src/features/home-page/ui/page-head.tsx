@@ -16,15 +16,15 @@ export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {
   return (
     <>
       <div className="flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <img src="/logo.jpg" alt="logo" className="w-10" />
-          <div className="text-2xl font-bold">
+        <div className="flex items-center gap-2">
+          <img src="/logo.jpg" alt="logo" className="w-8" />
+          <div className="text-xl font-bold">
             TOMARIS APA{' '}
             <span className="text-[16px] opacity-60">SIBERIAN WELLNESS</span>
           </div>
         </div>
         <div
-          className="flex bg-[#F5F6FA] p-3 rounded-full cursor-pointer relative border border-[#00000033]"
+          className="flex bg-[#F5F6FA] p-2 rounded-full cursor-pointer relative border border-[#00000033]"
           onClick={() => navigate(`/${locale}/cart`)}
         >
           <svg
