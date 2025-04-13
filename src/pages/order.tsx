@@ -14,6 +14,7 @@ interface IFormInput {
   full_name: string
   phone: string
   address: string
+  order_id: string
   basket_ids: number[]
 }
 
@@ -43,6 +44,7 @@ const Order = () => {
       full_name: '',
       phone: '',
       address: '',
+      order_id: '',
       basket_ids: [],
     },
   })
@@ -78,7 +80,12 @@ const Order = () => {
     try {
       setIsLoading(true)
       await OrderApi.orderCreate({
-        body: { ...data, basket_ids: basketIds, phone: data.phone.slice(1) },
+        body: {
+          ...data,
+          basket_ids: basketIds,
+          phone: data.phone.slice(1),
+          order_id: +data.order_id,
+        },
         locale,
       }).then(() => {
         setErrorText('')
@@ -101,7 +108,7 @@ const Order = () => {
         {t('orderProduct')}
       </div>
       {errorText && (
-        <div role="alert" className="alert alert-error">
+        <div role="alert" className="alert alert-error nowrap">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="stroke-current shrink-0 h-6 w-6"
@@ -119,6 +126,16 @@ const Order = () => {
         </div>
       )}
       <form className="flex-grow" onSubmit={handleSubmit(onSubmit)}>
+        <InputRef
+          placeholder={t('register_number')}
+          label={t('register_number')}
+          icon={false}
+          type="tel"
+          error={!!errors.order_id}
+          errorMessage={errors.order_id?.message}
+          {...register('order_id', { required: t('required') })}
+        />
+
         <InputRef
           placeholder="ФИО"
           label="ФИО"

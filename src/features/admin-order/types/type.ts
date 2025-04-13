@@ -5,6 +5,7 @@ export interface AdminOrderType {
   phone: string
   address: string
   items: OrderProduct[]
+  order_id: number
 }
 
 export interface OrderProduct {

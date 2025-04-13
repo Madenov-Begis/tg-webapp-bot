@@ -49,6 +49,10 @@ const AdminOrder = () => {
             <div className="font-bold">{newOrder?.full_name}</div>
           </div>
           <div className="flex justify-start gap-5 mb-3">
+            <div>Регистрационный номер:</div>
+            <div className="font-bold">{newOrder?.order_id}</div>
+          </div>
+          <div className="flex justify-start gap-5 mb-3">
             <div>Номер телефона:</div>
             <div className="font-bold">{newOrder?.phone}</div>
           </div>

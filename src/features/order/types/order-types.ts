@@ -3,6 +3,7 @@ export interface OrderFormBody {
   phone: string
   address: string
   basket_ids: number[] | null
+  order_id: number
 }
 
 export interface Orders {
@@ -15,4 +16,5 @@ export interface Orders {
   price: number
   product_id: number
   customer_id: number
+  oder_id: number
 }
