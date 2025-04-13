@@ -84,7 +84,7 @@ const Order = () => {
           ...data,
           basket_ids: basketIds,
           phone: data.phone.slice(1),
-          order_id: +data.order_id,
+          order_id: data.order_id,
         },
         locale,
       }).then(() => {

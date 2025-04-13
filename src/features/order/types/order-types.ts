@@ -3,7 +3,7 @@ export interface OrderFormBody {
   phone: string
   address: string
   basket_ids: number[] | null
-  order_id: number
+  order_id: string
 }
 
 export interface Orders {
