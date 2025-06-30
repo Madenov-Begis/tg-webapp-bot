@@ -12,8 +12,8 @@ const App = () => {
     if (tg) {
       tg.expand()
       tg.enableClosingConfirmation()
-      tg.setHeaderColor('#000000')
-      tg.setBackgroundColor('#000000')
+      tg.setHeaderColor('#ffffff')
+      tg.setBackgroundColor('#ffffff')
       tg.ready()
 
       const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -30,7 +30,7 @@ const App = () => {
   }, [])
 
   return (
-    <main className="relative max-w-[600px] mx-auto min-h-screen pt-12">
+    <main className="relative max-w-[600px] mx-auto min-h-screen">
       <div className="bg-white mt-12 min-h-[calc(100vh-3rem)]">
         <Container>
           <RouterProvider router={router} />
