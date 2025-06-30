@@ -41,55 +41,53 @@ const AdminOrder = () => {
       )}
 
       {!isLoading && (
-        <div>
-          <div className="font-bold text-center text-xl mb-7">Новый заказ</div>
-
-          <div className="flex justify-start gap-5 mb-3">
-            <div>ФИО:</div>
-            <div className="font-bold">{newOrder?.full_name}</div>
-          </div>
-          <div className="flex justify-start gap-5 mb-3">
-            <div>Регистрационный номер:</div>
-            <div className="font-bold">{newOrder?.order_id}</div>
-          </div>
-          <div className="flex justify-start gap-5 mb-3">
-            <div>Номер телефона:</div>
-            <div className="font-bold">{newOrder?.phone}</div>
-          </div>
-          <div className="flex justify-start gap-5 mb-3">
-            <div>Адрес:</div>
-            <div className="font-bold">{newOrder?.address}</div>
-          </div>
-          <div className="flex justify-start gap-5 mb-3">
-            <div>Статус:</div>
-            <div className="font-bold">{newOrder?.status}</div>
-          </div>
-
-          {newOrder?.items.map((item) => {
-            return (
-              <div
-                className="flex gap-4 rounded-md border border-[#71717133] shadow-sm p-2 mb-5"
-                key={item.id}
-              >
-                <img
-                  src={item.product.image}
-                  alt="product-image"
-                  className="w-[28%] aspect-[4/3] rounded-md object-cove"
-                />
-                <div className="flex flex-col w-[75%]">
-                  <div className="font-bold line-clamp-2">
-                    {item.product.title}
-                  </div>
-                  <div className="flex-grow opacity-50 font-medium">
-                    Цена: {item.product.price}
-                  </div>
-                  <div className="flex-grow opacity-50 font-medium">
-                    Количество: {item.count} шт
+        <div className="bg-gradient-primary/10 min-h-screen p-4">
+          <div className="max-w-xl mx-auto bg-white/90 rounded-2xl shadow-soft border border-primary-100 p-6">
+            <div className="font-bold text-center text-2xl mb-6 text-primary-500">Новый заказ</div>
+            <div className="grid grid-cols-1 gap-3 mb-6">
+              <div className="flex justify-between items-center">
+                <div className="text-gray-500">ФИО:</div>
+                <div className="font-bold text-gray-800">{newOrder?.full_name}</div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="text-gray-500">Регистрационный номер:</div>
+                <div className="font-bold text-gray-800">{newOrder?.order_id}</div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="text-gray-500">Номер телефона:</div>
+                <div className="font-bold text-gray-800">{newOrder?.phone}</div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="text-gray-500">Адрес:</div>
+                <div className="font-bold text-gray-800">{newOrder?.address}</div>
+              </div>
+              <div className="flex justify-between items-center">
+                <div className="text-gray-500">Статус:</div>
+                <div className="font-bold px-3 py-1 rounded-full text-xs bg-primary-500 text-white">{newOrder?.status}</div>
+              </div>
+            </div>
+            <div className="space-y-3">
+              {newOrder?.items.map((item) => (
+                <div
+                  className="flex gap-4 rounded-xl bg-gray-50 border border-gray-200 shadow-soft p-2"
+                  key={item.id}
+                >
+                  <img
+                    src={item.product.image}
+                    alt="product-image"
+                    className="w-20 h-20 rounded-xl object-cover"
+                  />
+                  <div className="flex flex-col flex-1">
+                    <div className="font-bold line-clamp-2 text-gray-800 text-sm mb-1">
+                      {item.product.title}
+                    </div>
+                    <div className="text-xs text-gray-500">Цена: <span className="font-semibold text-gray-700">{item.product.price}</span></div>
+                    <div className="text-xs text-gray-500">Количество: <span className="font-semibold text-gray-700">{item.count} шт</span></div>
                   </div>
                 </div>
-              </div>
-            )
-          })}
+              ))}
+            </div>
+          </div>
         </div>
       )}
 

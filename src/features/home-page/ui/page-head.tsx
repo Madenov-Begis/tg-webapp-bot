@@ -14,7 +14,7 @@ export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {
   const navigate = useNavigate()
 
   return (
-    <>
+    <div className="flex flex-col justify-start">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img src="/logo.jpg" alt="logo" className="w-8" />
@@ -67,7 +67,7 @@ export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {
           </svg>
 
           {basketCount ? (
-            <div className="badge badge-lg absolute top-0 right-0 translate-x-2 -translate-y-2 bg-[#1EA1F1] text-white">
+            <div className="badge badge-lg absolute top-0 right-0 translate-x-2 -translate-y-2 bg-primary-500 text-white">
               {basketCount}
             </div>
           ) : null}
@@ -77,6 +77,6 @@ export const PageHead = ({ locale, basketCount }: SelectedProductsProps) => {
       <div className="text-lg font-semibold text-black/40 mt-3 mb-1">
         {t('welcome')} {user?.username}
       </div>
-    </>
+    </div>
   )
 }

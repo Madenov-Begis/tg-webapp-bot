@@ -23,6 +23,10 @@ export const ProductsList = ({
           <div key={item} className="skeleton w-full h-[350px]"></div>
         ))}
 
+      {!isLoading && products && products.length === 0 && (
+        <div className="col-span-2 text-center text-gray-500 text-lg py-10">Ничего не найдено</div>
+      )}
+
       {!isLoading &&
         products?.map((product) => {
           return (

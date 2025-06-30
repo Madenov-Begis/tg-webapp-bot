@@ -32,35 +32,34 @@ const MyOrders = () => {
   }, [locale])
 
   return (
-    <div className="flex flex-col gap-4 items-start">
+    <div className="flex flex-col gap-4 items-start bg-gradient-primary/10 min-h-screen p-4">
       <div className="font-bold text-center text-xl">Мои заказы</div>
       {!isLoading &&
-        myOrders?.map((order) => (
+        myOrders?.slice().sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()).map((order) => (
           <>
             <div
               className={clsx(
-                'collapse collapse-arrow bg-transparent border border-[#71717133] min-h-max',
+                'rounded-2xl bg-white/90 shadow-soft border border-primary-100 mb-2 w-full transition-all',
                 {
-                  'collapse-close': activeOrder !== order.id,
+                  'ring-2 ring-primary-500': activeOrder === order.id,
                 }
               )}
               onClick={() =>
                 setActiveOrder((prev) => (prev === order.id ? null : order.id))
               }
             >
-              <input type="radio" name={order.id.toString()} />
-              <div className="collapse-title text-xl font-medium">
-                <div className="flex justify-start items-center gap-5 mb-3">
-                  <div>Номер заказа:</div>
-                  <div className="font-bold">{order.id}</div>
+              <div className="p-4 cursor-pointer select-none">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-sm text-gray-500">Номер заказа:</div>
+                  <div className="font-bold text-lg text-primary-500">{order.id}</div>
                 </div>
-                <div className="flex justify-start items-center gap-5 mb-3">
-                  <div>Статус:</div>
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-sm text-gray-500">Статус:</div>
                   <div
-                    className={clsx('font-bold px-2 py-1 rounded-md', {
-                      'bg-blue-400 text-white': order.status === 'pending',
-                      'bg-red-500 text-white': order.status === 'rejected',
-                      'bg-green-500 text-white': order.status === 'approved',
+                    className={clsx('font-bold px-3 py-1 rounded-full text-xs', {
+                      'bg-primary-500 text-white': order.status === 'pending',
+                      'bg-red-100 text-red-600': order.status === 'rejected',
+                      'bg-green-100 text-green-600': order.status === 'approved',
                     })}
                   >
                     {order.status === 'pending'
@@ -72,42 +71,35 @@ const MyOrders = () => {
                       : ''}
                   </div>
                 </div>
-                <div className="flex justify-start items-center gap-5 mb-3">
-                  <div>Дата заказа:</div>
-                  <div className="font-bold">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="text-sm text-gray-500">Дата заказа:</div>
+                  <div className="font-bold text-gray-700">
                     {new Date(order.created_at).toLocaleDateString()}
                   </div>
                 </div>
-              </div>
-              <div className="collapse-content min-h-max">
-                <div className="flex flex-col gap-3">
-                  {order.items?.length &&
-                    order.items.map((item) => {
-                      return (
-                        <div
-                          className="flex gap-4 rounded-md shadow-sm p-2 border"
-                          key={item.id}
-                        >
-                          <img
-                            src={item.product.image}
-                            alt="product-image"
-                            className="w-[28%] aspect-[4/3] rounded-md object-cove"
-                          />
-                          <div className="flex flex-col w-[75%]">
-                            <div className="font-bold line-clamp-2">
-                              {item.product.title}
-                            </div>
-                            <div className="flex-grow opacity-50 font-medium">
-                              Цена: {item.product.price}
-                            </div>
-                            <div className="flex-grow opacity-50 font-medium">
-                              Количество: {item.count} шт
-                            </div>
+                {activeOrder === order.id && (
+                  <div className="mt-4 space-y-2">
+                    {order.items?.map((item) => (
+                      <div
+                        className="flex gap-4 rounded-xl bg-gray-50 border border-gray-200 shadow-soft p-2"
+                        key={item.id}
+                      >
+                        <img
+                          src={item.product.image}
+                          alt="product-image"
+                          className="w-20 h-20 rounded-xl object-cover"
+                        />
+                        <div className="flex flex-col flex-1">
+                          <div className="font-bold line-clamp-2 text-gray-800 text-sm mb-1">
+                            {item.product.title}
                           </div>
+                          <div className="text-xs text-gray-500">Цена: <span className="font-semibold text-gray-700">{Number(item.price).toLocaleString()} сум</span></div>
+                          <div className="text-xs text-gray-500">Количество: <span className="font-semibold text-gray-700">{item.count} шт</span></div>
                         </div>
-                      )
-                    })}
-                </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </>

@@ -26,9 +26,7 @@ const Order = () => {
   const { locale } = useParams()
 
   const [totalPrice, setTotalPrice] = useState<number | undefined>(undefined)
-  const [deliverPrice, setDeliverPrice] = useState<number | undefined>(
-    undefined
-  )
+
   const [basketIds, setBasketIds] = useState<number[] | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [errorText, setErrorText] = useState('')
@@ -39,6 +37,7 @@ const Order = () => {
     reset,
     control,
     formState: { errors },
+    setError,
   } = useForm<IFormInput>({
     defaultValues: {
       full_name: '',
@@ -54,7 +53,6 @@ const Order = () => {
       await CartApi.getAll(locale).then((data) => {
         setBasketIds(data.data.baskets?.map((basket) => basket.id))
         setTotalPrice(data.data.total_price)
-        setDeliverPrice(data.data.deleviry_price)
       })
     } catch (error) {
       console.log(error)
@@ -96,7 +94,17 @@ const Order = () => {
     } catch (error) {
       const err = error as HTTPError
 
-      setErrorText(err.message)
+      if (err.errors) {
+        Object.entries(err.errors).forEach(([field, message]) => {
+          const errorMessage = Array.isArray(message) ? message[0] : message
+          setError(field as keyof IFormInput, {
+            type: 'server',
+            message: errorMessage,
+          })
+        })
+      } else {
+        setErrorText(err.message)
+      }
     } finally {
       setIsLoading(false)
     }
@@ -187,7 +195,13 @@ const Order = () => {
           type="text"
           error={!!errors.address}
           errorMessage={errors.address?.message}
-          {...register('address', { required: t('required') })}
+          {...register('address', {
+            required: t('required'),
+            minLength: {
+              value: 5,
+              message: 'Адрес должен содержать минимум 5 символов',
+            },
+          })}
         />
         <Button
           title={t('order')}
@@ -195,22 +209,40 @@ const Order = () => {
           className="mt-10"
           loading={isLoading}
           disabled={isLoading}
+          variant={isLoading ? 'disable' : 'primary'}
         />
       </form>
 
-      <div className="flex-grow-0 p-3 mt-10 rounded-t-md shadow-md border text-xl">
-        <div className="flex justify-between items-center">
-          <div>{t('allPrice')}:</div>
-          <div>{totalPrice?.toLocaleString()} сум</div>
-        </div>
-        <div className="flex justify-between items-center">
-          <div>{t('deliver')}:</div>
-          <div>{deliverPrice} сум</div>
-        </div>
-        <div className="flex justify-between items-center border-t pt-3 mt-3">
-          <div className="font-bold text-2xl">{t('itogo')}:</div>
-          <div className="font-bold text-2xl">
-            {totalPrice?.toLocaleString()} сум
+      <div className="bg-white/90 backdrop-blur-sm border-t border-gray-200 rounded-t-2xl shadow-strong p-6 mt-6 animate-fade-in">
+        <div className="space-y-4">
+          {/* Price Breakdown */}
+          <div className="space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-gray-600 font-medium">
+                {t('allPrice')}:
+              </span>
+              <span className="text-lg font-semibold text-gray-800">
+                {Number(totalPrice).toLocaleString()}
+              </span>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-200"></div>
+
+          {/* Total */}
+          <div className="flex justify-between items-center">
+            <span className="text-xl font-bold text-gray-800">
+              {t('itogo')}:
+            </span>
+            <div className="text-2xl font-bold text-primary-500">
+              {Number(totalPrice).toLocaleString()}
+            </div>
+          </div>
+
+          {/* Decorative Element */}
+          <div className="flex justify-center pt-2">
+            <div className="w-16 h-1 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full"></div>
           </div>
         </div>
       </div>

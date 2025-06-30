@@ -94,7 +94,6 @@ const HomePage = () => {
       <Input
         label={t('search')}
         placeholder={t('search')}
-        icon={true}
         type="search"
         setKeyWord={setKeyWord}
       />
@@ -124,7 +123,7 @@ const HomePage = () => {
         (totalPage > 1 && (
           <div className="text-center mt-5">
             <button
-              className="btn bg-[#4f46e5] text-white"
+              className="btn bg-primary-500 text-white"
               onClick={() => setPage((prev) => prev + 1)}
             >
               {isPageLoading && (

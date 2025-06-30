@@ -129,7 +129,7 @@ const Cart = () => {
   return (
     <div className="flex flex-col h-[calc(100vh-45px)]">
       <div className="text-center font-bold text-lg mb-5">{t('cart')}</div>
-      <div className="flex-grow">
+      <div className="flex-grow space-y-3">
         {isLoading &&
           [1, 2, 3, 4].map((item) => (
             <div key={item} className="skeleton w-full h-[110px] mb-5"></div>
@@ -159,6 +159,8 @@ const Cart = () => {
               loading={isLoading}
               onClick={() => navigate('/' + locale)}
               className="mt-3 w-32 mx-auto block"
+              variant={isLoading ? 'disable' : 'primary'}
+              disabled={isLoading}
             />
           </>
         )}
