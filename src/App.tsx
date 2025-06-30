@@ -9,10 +9,17 @@ const App = () => {
     //@ts-expect-error
     const tg = window?.Telegram?.WebApp
 
-    if (tg) {
-      // Разворачиваем приложение на всю высоту
+    // Проверяем, что это мобильное устройство
+    const isMobile =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) || window.innerWidth <= 768
+
+    if (tg && isMobile) {
+      // Расширяем приложение до полной высоты
       tg.expand()
 
+      // Включаем полноэкранный режим (если доступен)
       if (tg.requestFullscreen) {
         tg.requestFullscreen()
       }
@@ -33,13 +40,16 @@ const App = () => {
         tg.disableVerticalSwipes()
       }
 
-      // Ставим цвет фона и шапки
-      tg.setHeaderColor('#000000')
-      tg.setBackgroundColor('#000000')
+      // Устанавливаем цвет заголовка
+      tg.setHeaderColor('#ffffff')
 
-      // Отмечаем, что готово
+      // Устанавливаем цвет фона
+      tg.setBackgroundColor('#17212B')
+
+      // Показываем приложение как готовое к использованию
       tg.ready()
 
+      // Дополнительная защита от случайного закрытия
       const handleBeforeUnload = (e: BeforeUnloadEvent) => {
         e.preventDefault()
         return ''
@@ -47,14 +57,19 @@ const App = () => {
 
       window.addEventListener('beforeunload', handleBeforeUnload)
 
+      // Очистка при размонтировании
       return () => {
         window.removeEventListener('beforeunload', handleBeforeUnload)
       }
+    } else if (tg) {
+      // Для десктопа - только базовая инициализация без полноэкранного режима
+      tg.ready()
     }
   }, [])
 
   return (
-    <main className="max-w-[600px] mx-auto min-h-screen pt-12">
+    <main className="max-w-[600px] mx-auto min-h-screen">
+      <div className="pt-20 bg-[#17212B]"></div>    
       <Container>
         <RouterProvider router={router} />
       </Container>
