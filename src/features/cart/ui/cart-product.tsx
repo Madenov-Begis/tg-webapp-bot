@@ -33,7 +33,7 @@ export const CartPoduct = (props: CartItemProps) => {
           <img
             src={item.product.image}
             alt="product-image"
-            className="w-20 h-20 rounded-xl object-cover shadow-soft"
+            className="w-20 aspect-[3/4] rounded-xl object-cover shadow-soft"
           />
           <div className="absolute -top-1 -right-1 bg-gradient-to-r from-accent-500 to-accent-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-medium">
             {item.count}
@@ -43,7 +43,7 @@ export const CartPoduct = (props: CartItemProps) => {
         {/* Product Info */}
         <div className="flex-1 space-y-3">
           <div>
-            <h3 className="font-bold text-gray-800 text-lg leading-tight">
+            <h3 className="font-bold text-gray-800 text-base leading-tight">
               {item.product.name}
             </h3>
             <div className="text-lg font-semibold text-primary-500">
@@ -108,7 +108,7 @@ export const CartPoduct = (props: CartItemProps) => {
             <button
               onClick={() => handleDelete(item.id)}
               disabled={isDeleteLoading === item.id}
-              className="w-10 h-10 rounded-xl bg-primary-500 text-white flex items-center justify-center shadow-medium hover:shadow-strong transition-all duration-300 transform hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              className="w-8 h-8 rounded-xl bg-primary-500 text-white flex items-center justify-center shadow-medium transition-all duration-300 transform active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             >
               {isDeleteLoading === item.id ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

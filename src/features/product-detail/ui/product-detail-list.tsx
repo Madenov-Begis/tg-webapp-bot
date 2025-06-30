@@ -69,7 +69,7 @@ export const ProductDetailList = () => {
                 src={product?.image}
                 loading="lazy"
                 alt="product-image"
-                className="w-full h-[320px] object-cover"
+                className="w-full h-[320px] object-contain"
               />
               {product?.is_active ? (
                 <span className="absolute top-3 right-3 bg-gradient-to-r from-primary-400 to-primary-500 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-soft">В наличии</span>
@@ -99,7 +99,7 @@ export const ProductDetailList = () => {
             <div className="skeleton rounded-md w-1/2 h-[32px] mt-2 mb-2"></div>
           )}
           {!isFetching && (
-            <div className="text-3xl font-bold bg-gradient-to-r from-primary-500 to-primary-400 bg-clip-text text-transparent mb-4">
+            <div className="text-2xl font-bold bg-gradient-to-r from-primary-500 to-primary-400 bg-clip-text text-transparent mb-4">
               {Number(product?.price)?.toLocaleString()} сум
             </div>
           )}

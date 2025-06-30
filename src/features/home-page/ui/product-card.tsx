@@ -55,7 +55,7 @@ export const ProductCard = ({
 
           <div className="p-4 space-y-3">
             <div className="space-y-2">
-              <h3 className="font-bold text-gray-800 text-lg leading-tight line-clamp-2">
+              <h3 className="font-bold text-gray-800 text-base leading-tight line-clamp-2 mb-1">
                 {product.name}
               </h3>
               <div className="flex items-center gap-2">
@@ -66,14 +66,14 @@ export const ProductCard = ({
             </div>
 
             <div className="flex items-center justify-between">
-              <div className="text-2xl font-bold text-primary-500">
+              <div className="text-xl font-bold text-primary-500">
                 {Number(product?.price).toLocaleString()}
               </div>
             </div>
           </div>
         </Link>
 
-        <div className="p-4 pt-0">
+        <div className="p-2 pt-0">
           {!!product.basket_count && (
             <Button
               title={t('addedToCart')}
@@ -81,6 +81,7 @@ export const ProductCard = ({
               onClick={() => {}}
               className="btn-disabled border-none"
               variant="disable"
+              size="sm"
             />
           )}
           {!product.basket_count && (
@@ -95,6 +96,7 @@ export const ProductCard = ({
                 addToCArt(product.id)
                 setBasketCount((prev) => prev + 1)
               }}
+              size="sm"
             />
           )}
         </div>
