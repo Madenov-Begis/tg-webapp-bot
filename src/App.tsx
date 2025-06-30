@@ -7,13 +7,21 @@ const App = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    const tg = window.Telegram?.WebApp
+    const tg = window?.Telegram?.WebApp
 
     if (tg) {
+      // Разворачиваем приложение на всю высоту
       tg.expand()
-      tg.enableClosingConfirmation()
-      tg.setHeaderColor('#ffffff')
-      tg.setBackgroundColor('#ffffff')
+
+      // Ставим цвет фона и шапки
+      tg.setHeaderColor('#000000')
+      tg.setBackgroundColor('#000000')
+
+      // Включаем защиту от закрытия
+      tg.enableClosingConfirmation?.()
+      tg.disableVerticalSwipes?.()
+
+      // Отмечаем, что готово
       tg.ready()
 
       const handleBeforeUnload = (e: BeforeUnloadEvent) => {
