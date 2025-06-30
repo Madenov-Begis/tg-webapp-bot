@@ -18,30 +18,53 @@ const App = () => {
         tg.requestFullscreen()
       }
 
-      // Отключаем возможность закрытия через свайп вниз
+      // ВАЖНО: Отключаем закрытие через свайп/скролл
       tg.disableClosingConfirmation()
 
-      // Включаем режим вертикальных свайпов (если нужно)
-      if (tg.enableClosingConfirmation) {
+      // Включаем подтверждение закрытия - теперь закроется только через кнопку
+      tg.enableClosingConfirmation()
+
+      // Отключаем возможность закрытия свайпом вниз
+      if (tg.isClosingConfirmationEnabled !== undefined) {
         tg.enableClosingConfirmation()
       }
 
-      // Устанавливаем цвет заголовка (опционально)
-      tg.setHeaderColor('#ffffff')
+      // Блокируем вертикальные свайпы для закрытия
+      if (tg.disableVerticalSwipes) {
+        tg.disableVerticalSwipes()
+      }
 
-      // Устанавливаем цвет фона (опционально)
-      tg.setBackgroundColor('#ffffff')
+      // Устанавливаем цвет заголовка
+      tg.setHeaderColor('#000000')
+
+      // Устанавливаем цвет фона
+      tg.setBackgroundColor('#000000')
 
       // Показываем приложение как готовое к использованию
       tg.ready()
+
+      // Дополнительная защита от случайного закрытия
+      const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+        e.preventDefault()
+        return ''
+      }
+
+      window.addEventListener('beforeunload', handleBeforeUnload)
+
+      // Очистка при размонтировании
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload)
+      }
     }
   }, [])
 
   return (
-    <main className="relative max-w-[600px] mx-auto h-full bg-white">
-      <Container>
-        <RouterProvider router={router} />
-      </Container>
+    <main className="relative w-full min-h-screen bg-black">
+      <div className="bg-white mt-12 min-h-[calc(100vh-3rem)]">
+        <Container>
+          <RouterProvider router={router} />
+        </Container>
+      </div>
     </main>
   )
 }
