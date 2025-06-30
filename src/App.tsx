@@ -17,6 +17,8 @@ const App = () => {
       tg.enableClosingConfirmation?.()
       tg.disableVerticalSwipes?.()
 
+      tg.setBackgroundColor('#ffffff')
+
       // Отмечаем, что готово
       tg.ready()
 
