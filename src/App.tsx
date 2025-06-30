@@ -7,10 +7,33 @@ const App = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     //@ts-expect-error
-    if (window.Telegram?.WebApp?.expand) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-expect-error
-      window.Telegram.WebApp.expand()
+    const tg = window.Telegram?.WebApp
+
+    if (tg) {
+      // Расширяем приложение до полной высоты
+      tg.expand()
+
+      // Включаем полноэкранный режим (если доступен)
+      if (tg.requestFullscreen) {
+        tg.requestFullscreen()
+      }
+
+      // Отключаем возможность закрытия через свайп вниз
+      tg.disableClosingConfirmation()
+
+      // Включаем режим вертикальных свайпов (если нужно)
+      if (tg.enableClosingConfirmation) {
+        tg.enableClosingConfirmation()
+      }
+
+      // Устанавливаем цвет заголовка (опционально)
+      tg.setHeaderColor('#ffffff')
+
+      // Устанавливаем цвет фона (опционально)
+      tg.setBackgroundColor('#ffffff')
+
+      // Показываем приложение как готовое к использованию
+      tg.ready()
     }
   }, [])
 
