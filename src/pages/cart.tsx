@@ -72,7 +72,15 @@ const Cart = () => {
     try {
       setPlusLoading(id)
       await CartApi.changeCount({ id, body: { count: 1 }, locale })
-      getBasket()
+      setCartItem((prev) =>
+        prev
+          ? prev.map((item) =>
+              item.id === id
+                ? { ...item, count: item.count + 1 }
+                : item
+            )
+          : prev
+      )
     } catch (error) {
       console.log(error)
     } finally {
@@ -85,8 +93,15 @@ const Cart = () => {
       if (count > 1) {
         setMinusLoading(id)
         await CartApi.changeCount({ id, body: { count: -1 }, locale })
-
-        getBasket()
+        setCartItem((prev) =>
+          prev
+            ? prev.map((item) =>
+                item.id === id
+                  ? { ...item, count: item.count - 1 }
+                  : item
+              )
+            : prev
+        )
       }
     } catch (error) {
       console.log(error)

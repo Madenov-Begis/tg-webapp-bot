@@ -104,7 +104,10 @@ const HomePage = () => {
       <Categories
         categoryLoading={categoryLoading}
         categories={categories}
-        setCategory_id={setCategory_id}
+        setCategory_id={(id) => {
+          setPage(1)
+          setCategory_id(id)
+        }}
         category_id={category_id}
       />
 

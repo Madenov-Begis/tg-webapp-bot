@@ -44,40 +44,23 @@ export const ProductProvider = ({ children }: ProductProviderProps) => {
   useEffect(() => {
     const GetProducts = async () => {
       try {
-        setIsPageLoading(true)
-        await HomePageApi.getProducts({
+        if (page === 1) setIsLoading(true)
+        else setIsPageLoading(true)
+        const data = await HomePageApi.getProducts({
           params: { category_id, keyword, page },
           locale,
-        }).then((data) => {
-          setProducts((prev) => [...prev, ...data.data.data])
-          setTotalPage(data.data.last_page)
-        })
-      } catch (error) {
-        console.log(error)
-      } finally {
-        setIsPageLoading(false)
-      }
-    }
-    if (!(page === 1)) {
-      GetProducts()
-    }
-  }, [category_id, keyword, locale, page])
-
-  useEffect(() => {
-    const GetProducts = async () => {
-      try {
-        setIsLoading(true)
-        await HomePageApi.getProducts({
-          params: { category_id, keyword, page },
-          locale,
-        }).then((data) => {
+        });
+        if (page === 1) {
           setProducts(data.data.data)
-          setTotalPage(data.data.last_page)
-        })
+        } else {
+          setProducts((prev) => [...prev, ...data.data.data])
+        }
+        setTotalPage(data.data.last_page)
       } catch (error) {
         console.log(error)
       } finally {
         setIsLoading(false)
+        setIsPageLoading(false)
       }
     }
     GetProducts()
