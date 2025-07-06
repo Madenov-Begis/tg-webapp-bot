@@ -18,7 +18,7 @@ export const http = axios.create({
   headers: {
     // Accept: 'application/json',
     ...(telegramId && { 'telegram-id': telegramId }),
-    ['telegram-id']: 985012637,
+    // ['telegram-id']: 985012637,
     'Accept-Language': locale ?? 'ru',
   },
 })
